@@ -1,0 +1,52 @@
+[
+  {
+    "label": "A Samlux",
+    "path": "/a-samlux",
+    "submenu":[]
+  },
+  {
+    "label": "Produtos",
+    "path": "/produtos/todos",
+    "submenu": [
+      {
+        "label": "Mesa",
+        "path": "mesa"
+      },
+      {
+        "label": "Parede",
+        "path": "parede"
+      },
+      {
+        "label": "Piso",
+        "path": "piso"
+      },
+      {
+        "label": "Teto",
+        "path": "teto"
+      },
+      {
+        "label": "Jardim",
+        "path": "jardim"
+      },
+      {
+        "label": "Externo",
+        "path": "externo"
+      }
+    ]
+  },
+  {
+    "label": "Projeto Personalizado",
+    "path": "/contato/projeto-personalizado",
+    "submenu":[]
+  },
+  {
+    "label": "Downloads",
+    "path": "/downloads",
+    "submenu":[]
+  },
+  {
+    "label": "Contato",
+    "path": "/contato/fale-conosco",
+    "submenu":[]
+  }
+]

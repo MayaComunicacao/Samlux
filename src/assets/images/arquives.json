@@ -1,0 +1,35 @@
+[
+  {
+    "catalogos": [
+      {
+        "name": "Nome do arquivo PDF",
+        "link": "../../assets/img/download.pdf",
+        "description": "Descrição ou outra informação importante."
+      },
+      {
+        "name": "Nome do arquivo PDF",
+        "link": "../../assets/img/download.pdf",
+        "description": "Descrição ou outra informação importante."
+      }
+    ],
+    "3ds": [
+      {
+        "name": "Nome do arquivo foto 3D",
+        "link": "../../assets/img/download.3d",
+        "description": "Descrição ou outra informação importante."
+      }
+    ],
+    "fotos": [
+      {
+        "name": "Nome do arquivo de foto",
+        "link": "../../assets/img/download.jpg",
+        "description": "Descrição ou outra informação importante."
+      },
+      {
+        "name": "Nome do arquivo de foto",
+        "link": "../../assets/img/download.jpg",
+        "description": "Descrição ou outra informação importante."
+      }
+    ]
+  }
+]
