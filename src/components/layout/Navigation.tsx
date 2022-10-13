@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import Categories from '../../inc/categories.json';
 import configcss from '../../styles/configcss';
 
-interface MenuProps {
-  device: string;
-}
-
-const Navigation = ({ device }: MenuProps) => {
+const Navigation = () => {
   const Router = useRouter();
 
   return (
@@ -20,17 +16,13 @@ const Navigation = ({ device }: MenuProps) => {
           return (
             <span key={index} className="relative group z-10 inline-block">
               <Link href={item.path}>
-                <a
-                  className={device === 'desk' ? 'pr-4 pb-4' : 'block text-xl'}
-                >
+                <a className={'block text-xl lg:text-base lg:pr-4 pb-4'}>
                   {item.label}
                 </a>
               </Link>
               <div
                 className={
-                  device === 'desk'
-                    ? 'absolute top-8 left-0 submenu bg-white text-center border border-slate-300 invisible opacity-0 translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
-                    : 'submenu text-lg'
+                  'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-0 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
                 }
               >
                 {submenu.map((item, index) => {
@@ -48,7 +40,7 @@ const Navigation = ({ device }: MenuProps) => {
             <Link key={index} href={item.path}>
               <a
                 className={
-                  device === 'desk' ? 'pr-4 2xl:pr-3' : 'block text-xl py-3'
+                  'block text-xl lg:inline-block lg:text-base py-3 lg:pr-4 2xl:pr-3'
                 }
                 style={{
                   color:

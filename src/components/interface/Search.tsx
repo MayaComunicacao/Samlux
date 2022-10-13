@@ -1,13 +1,9 @@
 import React from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 
-interface SearchProps {
-  device: string;
-}
-
-const Search = ({ device }: SearchProps) => {
+const Search = () => {
   return (
-    <div className={`${device === 'mobi' ? 'w-full' : ' '} relative flex`}>
+    <div className={'w-full lg:w-auto lg:mr-3 relative flex'}>
       <input
         type="search"
         name="search"

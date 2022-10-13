@@ -21,19 +21,16 @@ interface PropsSlide {
 }
 
 const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
-  const [width, setWidth] = useState(0);
+  const [larg, setLarg] = useState(0);
 
   useEffect(() => {
-    const wid = window.innerWidth;
+    const value = document.querySelector('.container')?.getBoundingClientRect();
 
-    if (wid) {
-      setWidth(wid);
+    if (value) {
+      setLarg(value.width);
     }
   }, []);
-
-  console.log(width);
-
-  const pad = width > 1024 ? 40 : 20;
+  const pad = larg > 1200 ? 40 : 20;
 
   return (
     <Swiper

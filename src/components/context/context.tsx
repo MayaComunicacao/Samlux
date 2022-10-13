@@ -19,6 +19,7 @@ interface ModalProviderProps {
 export const ContextBudget = createContext<ContextProps>(defaultValues);
 
 export default function BudgetProvider({ children }: ModalProviderProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, setState] = useState(defaultValues.state);
 
   const SaveStorage = (code: number) => {

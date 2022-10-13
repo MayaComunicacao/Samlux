@@ -36,7 +36,6 @@ const PageContactsApp: NextPage = () => {
 
     if (whidth) {
       setPaddingLeft(whidth.left);
-      console.log(whidth);
     }
   }, []);
 
