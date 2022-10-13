@@ -5,8 +5,8 @@ import Arquives from '../assets/images/arquives.json';
 import ConfigCss from '../styles/configcss';
 
 interface DownloadProps {
-  link: string;
   name: string;
+  link: string;
   description: string;
 }
 
@@ -16,9 +16,11 @@ const StyleButtons = {
   borderColor: ConfigCss.colors.green
 };
 
+type TypeArquiveProp = 'catalogos' | '3ds' | 'fotos';
+
 const Download: NextPage = () => {
-  const [TypeArquive, setTypeArquive] = useState('catalogos');
-  const SetType = (type: string) => {
+  const [TypeArquive, setTypeArquive] = useState<TypeArquiveProp>('catalogos');
+  const SetType = (type: TypeArquiveProp) => {
     setTypeArquive(type);
   };
 
