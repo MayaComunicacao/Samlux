@@ -8,6 +8,7 @@ import { BiMenu } from 'react-icons/bi';
 import configcss from '../../styles/configcss';
 import { IoMdClose } from 'react-icons/io';
 import { useMenu } from '../context/contextMenu';
+import Link from 'next/link';
 
 const HeaderApp = () => {
   const { state: isActive, setStatusMenu } = useMenu();
@@ -25,7 +26,11 @@ const HeaderApp = () => {
               <Navigation />
             </div>
             <div className="w-[160px]">
-              <Image layout="intrinsic" src={Logo} alt="Logotipo Sanlux" />
+              <Link href="/" passHref>
+                <a className="relative">
+                  <Image layout="intrinsic" src={Logo} alt="Logotipo Sanlux" />
+                </a>
+              </Link>
             </div>
             <div className="flex items-center justify-end w-[calc(50%_-_90px)]">
               <Search />
