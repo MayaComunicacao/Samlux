@@ -15,6 +15,7 @@ import envi_1 from '../../assets/img/environment/01.jpg';
 import envi_2 from '../../assets/img/environment/02.jpg';
 import envi_3 from '../../assets/img/environment/03.jpg';
 import envi_4 from '../../assets/img/environment/04.jpg';
+import envi_5 from '../../assets/img/environment/03.jpg';
 
 const environments = [
   {
@@ -28,6 +29,9 @@ const environments = [
   },
   {
     src: envi_4
+  },
+  {
+    src: envi_5
   }
 ];
 
@@ -41,7 +45,19 @@ const IconButton = ({ children }: ButtonProps) => {
   );
 };
 
-const EnvironmentApp = () => {
+interface EnviromentProps {
+  data: any;
+}
+
+const EnvironmentApp = ({ data }: EnviromentProps) => {
+  console.log(data);
+
+  const imgs = data.map((img: any) => {
+    return {
+      src: img.src
+    };
+  });
+
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -85,12 +101,12 @@ const EnvironmentApp = () => {
             <span className="block mt-2 text-gray">Externo</span>
           </IconButton>
         </div>
-        <div className="mt-8 sm:mt-0">
+        <div className="mt-8 sm:mt-0 h-[250px] xl:h-[500px]">
           <SlideApp
             dot={true}
             nav={false}
             qnt={[2, 3, 4]}
-            imgs={environments}
+            imgs={imgs}
             size={true}
             play={false}
           />

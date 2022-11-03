@@ -16,12 +16,21 @@ interface PropsSlide {
     text?: string;
     text_button?: string;
   }[];
-  size?: boolean;
+  size: boolean;
   play: boolean;
 }
 
 const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
   const [larg, setLarg] = useState(0);
+  const [load, setLoad] = useState(false);
+  const [naturalSizes, setNaturalSizes] = useState({
+    width: 0,
+    height: 0
+  });
+
+  useEffect(() => {
+    setLoad(true);
+  }, []);
 
   useEffect(() => {
     const value = document.querySelector('.container')?.getBoundingClientRect();
@@ -31,6 +40,10 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
     }
   }, []);
   const pad = larg > 1200 ? 40 : 20;
+
+  if (!load) {
+    return null;
+  }
 
   return (
     <Swiper
@@ -56,13 +69,28 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
         return (
           <SwiperSlide key={index}>
             <div
-              className={size ? 'relative h-[250px] xl:h-[500px]' : 'h-full'}
+              className={
+                size
+                  ? 'relative h-[250] xl:h-[500px]'
+                  : 'relative w-full h-full'
+              }
+              style={
+                size
+                  ? undefined
+                  : {
+                      width: `${naturalSizes.width}px`,
+                      height: `${naturalSizes.height}px`
+                    }
+              }
             >
               <Image
-                layout={size ? 'fill' : 'intrinsic'}
-                objectFit={size ? 'cover' : 'initial'}
-                objectPosition={size ? 'center center' : 'initial'}
+                layout="fill"
+                objectFit="cover"
                 src={item.src}
+                onLoadingComplete={({
+                  naturalWidth: width,
+                  naturalHeight: height
+                }) => setNaturalSizes({ width, height })}
               ></Image>
             </div>
 

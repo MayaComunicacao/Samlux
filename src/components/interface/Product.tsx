@@ -1,23 +1,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import img from '../../assets/img/product.jpg';
 import ButtonsApp from './Buttons';
 
-const ProductApp = () => {
+type Props = {
+  title: string;
+  cod: string;
+  img: string;
+  originalWidth: string;
+  originalHeight: string;
+  url: string;
+};
+
+const ProductApp = ({
+  title,
+  cod,
+  img,
+  originalWidth,
+  originalHeight,
+  url
+}: Props) => {
   return (
     <div>
       <div className="border border-gray">
-        <Link href="/produto/Luminaria">
-          <a>
-            <Image src={img} />
+        <Link href={`${url}`}>
+          <a className="relative">
+            {img && (
+              <Image
+                layout="responsive"
+                width={originalWidth}
+                height={originalHeight}
+                src={img}
+              />
+            )}
           </a>
         </Link>
       </div>
       <ButtonsApp page={'category'} />
       <div className="text-center py-2">
-        <p>Nome do produto</p>
-        <strong>Cód.</strong>
+        {title && <p>{title}</p>}
+        {cod && <strong>Cód. {cod}</strong>}
       </div>
     </div>
   );

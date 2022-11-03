@@ -1,66 +1,71 @@
-import type { NextPage } from 'next';
+import type { GetStaticProps, GetServerSideProps, NextPage } from 'next';
 import React from 'react';
 import SlideApp from '../components/interface/Slides';
 import TitleApp from '../components/interface/Title';
 import EnvironmentApp from '../components/interface/Environment';
 import Link from 'next/link';
 import ProductApp from '../components/interface/Product';
+import ApiDataProvider from '../components/context/apiDataContext';
+import { getApolloClient } from '../lib/apollo';
+import {
+  BannersOBJ,
+  BrandsOBJ,
+  ProductOBJ,
+  EnvironmentsOBJ
+} from '../hooks/querys';
 
-// Imagens
-import image_1 from '../assets/img/banner.jpg';
-import image_2 from '../assets/img/banner1.jpg';
+type Props = {
+  apiData: any;
+};
 
-const imagens = [
-  {
-    src: image_1,
-    text: 'Projetos pensados para você.',
-    text_button: 'Faça um projeto personalizado'
-  },
-  {
-    src: image_2,
-    text: 'Projetos Ixclusivos.',
-    text_button: 'Faça o seu'
-  }
-];
+const Home: NextPage<Props> = ({ apiData }: Props) => {
+  const banners = apiData[BannersOBJ.postType].nodes.map((obj: any) => {
+    return {
+      src: obj.bannerHome.bannerImgDesktop.mediaItemUrl,
+      text: obj.bannerHome.bannerText,
+      text_button: obj.bannerHome.bannerTxBotao
+    };
+  });
 
-// Logos
-import logo_1 from '../assets/img/logo/01.jpg';
-import logo_2 from '../assets/img/logo/02.jpg';
-import logo_3 from '../assets/img/logo/03.jpg';
-import logo_4 from '../assets/img/logo/04.jpg';
-import logo_5 from '../assets/img/logo/05.jpg';
-import logo_6 from '../assets/img/logo/06.jpg';
+  const logos = apiData[BrandsOBJ.postType].nodes.map((obj: any) => {
+    return {
+      src: obj[BrandsOBJ.postType].mexLogotipo.mediaItemUrl
+    };
+  });
 
-const logos = [
-  {
-    src: logo_1
-  },
-  {
-    src: logo_2
-  },
-  {
-    src: logo_3
-  },
-  {
-    src: logo_4
-  },
-  {
-    src: logo_5
-  },
-  {
-    src: logo_6
-  }
-];
+  const produtos = apiData[ProductOBJ.postType].nodes.map((obj: any) => {
+    return {
+      produto: {
+        title: obj.title,
+        ...obj.produto,
+        homeImg: {
+          url: obj.featuredImage.node.sourceUrl,
+          sizes: obj.featuredImage.node.mediaDetails
+        },
+        url: obj.uri
+      }
+    };
+  });
 
-const Home: NextPage = () => {
+  console.log(apiData[EnvironmentsOBJ.postType]);
+
+  const environment = apiData[EnvironmentsOBJ.postType].nodes.map(
+    (obj: any) => {
+      return {
+        src: obj.ambientes.imagemDoAmbiente.mediaItemUrl,
+        category: obj.categories
+      };
+    }
+  );
+
   return (
-    <>
+    <ApiDataProvider initialProps={apiData}>
       <div className="banner-home">
         <SlideApp
           dot={true}
           nav={false}
           qnt={[1, 1, 1]}
-          imgs={imagens}
+          imgs={banners}
           size={false}
           play={true}
         />
@@ -80,28 +85,58 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <EnvironmentApp />
+      <EnvironmentApp data={environment} />
 
       <div className="container py-14">
         <TitleApp text={'Lançamentos'} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8 my-8">
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
-          <ProductApp />
+          {produtos.map((item: any, index: number) => {
+            const { produto } = item;
+
+            return (
+              <ProductApp
+                key={`${index}`}
+                title={produto.title}
+                cod={produto.prodCodigo}
+                img={produto.homeImg.url}
+                originalWidth={produto.homeImg.sizes.width}
+                originalHeight={produto.homeImg.sizes.height}
+                url={produto.url}
+              />
+            );
+          })}
         </div>
         <div className="text-center mt-5">
-          <Link href="/produtos">
+          <Link href="/produtos/todos">
             <a className="py-2 px-8 bg-bg text-gray">Veja todos os produtos</a>
           </Link>
         </div>
       </div>
-    </>
+    </ApiDataProvider>
   );
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const apolloClient = getApolloClient();
+
+  const [{ marcasExclusivas }, { banners }, { produtos }, { ambientes }] =
+    await Promise.all([
+      await (await apolloClient.query({ query: BrandsOBJ.query() })).data,
+      await (await apolloClient.query({ query: BannersOBJ.query() })).data,
+      await (await apolloClient.query({ query: ProductOBJ.query() })).data,
+      await (await apolloClient.query({ query: EnvironmentsOBJ.query() })).data
+    ]);
+
+  return {
+    props: {
+      apiData: {
+        marcasExclusivas,
+        produtos,
+        banners,
+        ambientes
+      }
+    }
+  };
+};

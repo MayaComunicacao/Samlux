@@ -13,7 +13,7 @@ const FooterApp = () => {
             <ul className="text-gray min-w-full sm:min-w-[300px]">
               <li>
                 <Link href="/a-empresa">
-                  <a>Sanlux</a>
+                  <a>Samlux</a>
                 </Link>
               </li>
               <li>

@@ -44,7 +44,9 @@ const Navigation = () => {
                 }
                 style={{
                   color:
-                    Router.asPath === item.path ? configcss.colors.green : ''
+                    Router.asPath === item.path
+                      ? configcss.colors.green
+                      : configcss.colors.gray
                 }}
               >
                 {item.label}

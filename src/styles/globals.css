@@ -21,6 +21,7 @@ body{
   width: 100%;
   max-width: 90px;
   border: 1px solid;
+  border-color: white;
   background-color: transparent;
   border-radius: 0;
   height: 5px
@@ -114,6 +115,9 @@ nav a:hover{
   background:#0eb9b3;
   height: 4px
 }
+.objheight{
+  height: 90px;
+}
 
 @media screen and (max-width: 1550px){
   .container{
@@ -127,7 +131,7 @@ nav a:hover{
   .swiper-horizontal>.swiper-pagination-bullets,
   .swiper-pagination-bullets.swiper-pagination-horizontal,
   .swiper-pagination-custom, .swiper-pagination-fraction {
-      bottom: 10px !important;
+    bottom: 10px !important;
   }
   .swiper .swiper-pagination .swiper-pagination-bullet{
     max-width: 30px;
