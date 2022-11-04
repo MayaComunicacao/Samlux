@@ -10,7 +10,7 @@ import { getApolloClient } from '../lib/apollo';
 import {
   BannersOBJ,
   BrandsOBJ,
-  ProductOBJ,
+  ProductsOBJ,
   EnvironmentsOBJ
 } from '../hooks/querys';
 
@@ -33,21 +33,19 @@ const Home: NextPage<Props> = ({ apiData }: Props) => {
     };
   });
 
-  const produtos = apiData[ProductOBJ.postType].nodes.map((obj: any) => {
+  const produtos = apiData[ProductsOBJ.postType].nodes.map((obj: any) => {
     return {
       produto: {
         title: obj.title,
         ...obj.produto,
-        homeImg: {
-          url: obj.featuredImage.node.sourceUrl,
-          sizes: obj.featuredImage.node.mediaDetails
+        featuredImage: {
+          url: obj.featuredImage?.node.sourceUrl,
+          sizes: obj.featuredImage?.node.mediaDetails
         },
         url: obj.uri
       }
     };
   });
-
-  console.log(apiData[EnvironmentsOBJ.postType]);
 
   const environment = apiData[EnvironmentsOBJ.postType].nodes.map(
     (obj: any) => {
@@ -98,10 +96,11 @@ const Home: NextPage<Props> = ({ apiData }: Props) => {
                 key={`${index}`}
                 title={produto.title}
                 cod={produto.prodCodigo}
-                img={produto.homeImg.url}
-                originalWidth={produto.homeImg.sizes.width}
-                originalHeight={produto.homeImg.sizes.height}
+                img={produto?.featuredImage.url}
+                originalWidth={produto.featuredImage.sizes.width}
+                originalHeight={produto.featuredImage.sizes.height}
                 url={produto.url}
+                slug={produto.slug}
               />
             );
           })}
@@ -125,7 +124,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     await Promise.all([
       await (await apolloClient.query({ query: BrandsOBJ.query() })).data,
       await (await apolloClient.query({ query: BannersOBJ.query() })).data,
-      await (await apolloClient.query({ query: ProductOBJ.query() })).data,
+      await (await apolloClient.query({ query: ProductsOBJ.query() })).data,
       await (await apolloClient.query({ query: EnvironmentsOBJ.query() })).data
     ]);
 

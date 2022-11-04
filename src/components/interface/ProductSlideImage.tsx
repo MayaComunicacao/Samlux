@@ -2,10 +2,23 @@ import React, { useEffect, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
-import images from '../../assets/images/imgs.json';
+type Props = {
+  gallery: any;
+};
 
-const MyImageGallery = () => {
+const MyImageGallery = ({ gallery }: Props) => {
   const [width, setWidth] = useState(0);
+
+  console.log(gallery);
+
+  const images = gallery.map((item: any) => {
+    const el = item.mediaDetails.sizes.find((item: any) => item.width === 150);
+
+    return {
+      original: item.mediaItemUrl,
+      thumbnail: el ? el.sourceUrl : item.mediaItemUrl
+    };
+  });
 
   useEffect(() => {
     const width = document.querySelector('.container')?.getBoundingClientRect();

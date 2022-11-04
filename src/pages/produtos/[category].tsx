@@ -3,7 +3,7 @@ import React from 'react';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import FilterApp from '../../components/interface/Filter';
 import ProductApp from '../../components/interface/Product';
-import { ProductOBJ } from '../../hooks/querys';
+import { ProductsOBJ } from '../../hooks/querys';
 import { getApolloClient } from '../../lib/apollo';
 
 type Props = {
@@ -11,14 +11,14 @@ type Props = {
 };
 
 const Products: NextPage<Props> = ({ apiData }: Props) => {
-  const produtos = apiData[ProductOBJ.postType].nodes.map((obj: any) => {
+  const produtos = apiData[ProductsOBJ.postType].nodes.map((obj: any) => {
     return {
       produto: {
         title: obj.title,
         ...obj.produto,
-        homeImg: {
-          url: obj.featuredImage.node.sourceUrl,
-          sizes: obj.featuredImage.node.mediaDetails
+        featuredImage: {
+          url: obj.featuredImage?.node.sourceUrl,
+          sizes: obj.featuredImage?.node.mediaDetails
         },
         url: obj.uri
       }
@@ -27,7 +27,7 @@ const Products: NextPage<Props> = ({ apiData }: Props) => {
 
   return (
     <div className="container">
-      <BreadcrumbApp />
+      <BreadcrumbApp path={'Teto'} />
       <div className="pt-8 pb-14 block lg:flex">
         <div className="w-full lg:w-[280px] lg:mt-14">
           <FilterApp />
@@ -43,10 +43,11 @@ const Products: NextPage<Props> = ({ apiData }: Props) => {
                   key={`${index}`}
                   title={produto.title}
                   cod={produto.prodCodigo}
-                  img={produto.homeImg.url}
-                  originalWidth={produto.homeImg.sizes.width}
-                  originalHeight={produto.homeImg.sizes.height}
+                  img={produto.featuredImage.url}
+                  originalWidth={produto.featuredImage.sizes.width}
+                  originalHeight={produto.featuredImage.sizes.height}
                   url={produto.url}
+                  slug={produto.slug}
                 />
               );
             })}
@@ -63,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const apolloClient = getApolloClient();
 
   const [{ produtos }] = await Promise.all([
-    await (await apolloClient.query({ query: ProductOBJ.query() })).data
+    await (await apolloClient.query({ query: ProductsOBJ.query() })).data
   ]);
 
   return {

@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useBudget } from '../context/context';
 
 interface PageProps {
   page: string;
+  title: string;
+  codigo: string;
+  img: string;
+  slug: string;
 }
 
-const ButtonsApp = ({ page }: PageProps) => {
+const ButtonsApp = ({ page, title, slug, codigo, img }: PageProps) => {
   const [counter, setCounter] = useState(1);
 
   const increase = () => {
@@ -20,6 +25,20 @@ const ButtonsApp = ({ page }: PageProps) => {
 
   const HandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCounter(Number(e.target.value));
+  };
+
+  const { addBudget } = useBudget();
+
+  const handleClickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    addBudget({
+      title,
+      codigo,
+      img,
+      slug,
+      quantidade: counter
+    });
   };
 
   if (page === 'category') {
@@ -47,7 +66,10 @@ const ButtonsApp = ({ page }: PageProps) => {
             +
           </button>
         </div>
-        <button className="py-1 px-3 mx-1 text-xs uppercase bg-green text-white w-[calc(50%_-_50px)]">
+        <button
+          onClick={handleClickAdd}
+          className="py-1 px-3 mx-1 text-xs uppercase bg-green text-white w-[calc(50%_-_50px)]"
+        >
           Orçar
         </button>
         <Link href="/produto/Luminaria">
@@ -83,7 +105,10 @@ const ButtonsApp = ({ page }: PageProps) => {
               +
             </button>
           </div>
-          <button className="py-3 px-4 ml-1 text-lg uppercase bg-green text-white w-1/2 sm:w-[calc(100%_-_140px)]">
+          <button
+            onClick={handleClickAdd}
+            className="py-3 px-4 ml-1 text-lg uppercase bg-green text-white w-1/2 sm:w-[calc(100%_-_140px)]"
+          >
             Orçar
           </button>
         </div>

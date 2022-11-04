@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import ProductApp from './Product';
 import { useApiData } from '../../components/context/apiDataContext';
-import { ProductOBJ } from '../../hooks/querys';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,16 +11,17 @@ import 'swiper/css/pagination';
 const RelatedsApp = () => {
   const { apiData } = useApiData();
 
-  const produtos = apiData[ProductOBJ.postType].nodes.map((obj: any) => {
+  const produtos = apiData.produtos.nodes.map((obj: any) => {
     return {
       produto: {
         title: obj.title,
         ...obj.produto,
-        homeImg: {
-          url: obj.featuredImage.node.sourceUrl,
-          sizes: obj.featuredImage.node.mediaDetails
+        featuredImage: {
+          url: obj.featuredImage?.node.sourceUrl,
+          sizes: obj.featuredImage?.node.mediaDetails
         },
-        url: obj.uri
+        url: obj.uri,
+        slug: obj.slug
       }
     };
   });
@@ -56,10 +56,11 @@ const RelatedsApp = () => {
               key={`${index}`}
               title={produto.title}
               cod={produto.prodCodigo}
-              img={produto.homeImg.url}
-              originalWidth={produto.homeImg.sizes.width}
-              originalHeight={produto.homeImg.sizes.height}
+              img={produto.featuredImage.url}
+              originalWidth={produto.featuredImage.sizes.width}
+              originalHeight={produto.featuredImage.sizes.height}
               url={produto.url}
+              slug={produto.slug}
             />
           </SwiperSlide>
         );

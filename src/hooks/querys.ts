@@ -43,27 +43,16 @@ export const BannersOBJ = {
   }
 };
 
-export const ProductOBJ = {
+export const ProductsOBJ = {
   postType: 'produtos',
   query: function () {
     const q = gql`
     query GetPosts {
       ${this.postType} {
         nodes {
-          title
+          title,
           produto {
             prodCodigo
-            proImagens {
-              sourceUrl
-            }
-            prodCarac {
-              prodCaracItem
-            }
-            prodDescricao
-            prodItensinclusosDescricao
-            prodItensnaoinc {
-              prodItensnaoincItem
-            }
           },
           featuredImage{
             node{
@@ -74,8 +63,61 @@ export const ProductOBJ = {
               }
             }
           },
-          uri
+          uri,
+          slug
         }
+      }
+    }
+  `;
+    return q;
+  }
+};
+
+export const ProductOBJ = {
+  postType: 'produto',
+  query: function () {
+    const q = gql`
+    query GetProduct($slug: ID!) {
+      ${this.postType}(id: $slug, idType: SLUG) {
+        title,
+        produto {
+          prodCodigo
+          proImagens{
+            mediaItemUrl,
+            mediaDetails{
+              sizes {
+                height
+                width
+                sourceUrl
+              }
+            }
+          }
+          prodCarac {
+            prodCaracItem
+          }
+          prodDescricao
+          prodItensinclusosDescricao
+          prodItensnaoinc
+        },
+        uri,
+        slug,
+        categories{
+          nodes{
+            slug
+          }
+        },
+        featuredImage{
+          node{
+            sourceUrl
+            mediaDetails {
+              height
+              width
+              sizes{
+                sourceUrl
+              }
+            }
+          }
+        },
       }
     }
   `;
