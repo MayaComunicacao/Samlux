@@ -11,7 +11,8 @@ import {
   BannersOBJ,
   BrandsOBJ,
   ProductsOBJ,
-  EnvironmentsOBJ
+  EnvironmentsOBJ,
+  CategoriesOBJ
 } from '../hooks/querys';
 
 type Props = {
@@ -55,6 +56,7 @@ const Home: NextPage<Props> = ({ apiData }: Props) => {
       };
     }
   );
+  console.log(apiData[EnvironmentsOBJ.postType]);
 
   return (
     <ApiDataProvider initialProps={apiData}>
@@ -120,13 +122,19 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async () => {
   const apolloClient = getApolloClient();
 
-  const [{ marcasExclusivas }, { banners }, { produtos }, { ambientes }] =
-    await Promise.all([
-      await (await apolloClient.query({ query: BrandsOBJ.query() })).data,
-      await (await apolloClient.query({ query: BannersOBJ.query() })).data,
-      await (await apolloClient.query({ query: ProductsOBJ.query() })).data,
-      await (await apolloClient.query({ query: EnvironmentsOBJ.query() })).data
-    ]);
+  const [
+    { marcasExclusivas },
+    { banners },
+    { produtos },
+    { ambientes },
+    { categories }
+  ] = await Promise.all([
+    await (await apolloClient.query({ query: BrandsOBJ.query() })).data,
+    await (await apolloClient.query({ query: BannersOBJ.query() })).data,
+    await (await apolloClient.query({ query: ProductsOBJ.query() })).data,
+    await (await apolloClient.query({ query: EnvironmentsOBJ.query() })).data,
+    await (await apolloClient.query({ query: CategoriesOBJ.query() })).data
+  ]);
 
   return {
     props: {
@@ -134,7 +142,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
         marcasExclusivas,
         produtos,
         banners,
-        ambientes
+        ambientes,
+        categories
       }
     }
   };

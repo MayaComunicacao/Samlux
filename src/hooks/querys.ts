@@ -150,3 +150,20 @@ export const EnvironmentsOBJ = {
     return q;
   }
 };
+
+export const CategoriesOBJ = {
+  postType: 'categories',
+  query: function () {
+    const q = gql`
+    query GetPosts {
+      ${this.postType} {
+        nodes{
+          name,
+          slug
+        }
+      }
+    }
+  `;
+    return q;
+  }
+};

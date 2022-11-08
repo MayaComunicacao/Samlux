@@ -10,31 +10,6 @@ import {
   IconOutside
 } from './IconEnvironments';
 
-// Imagens
-import envi_1 from '../../assets/img/environment/01.jpg';
-import envi_2 from '../../assets/img/environment/02.jpg';
-import envi_3 from '../../assets/img/environment/03.jpg';
-import envi_4 from '../../assets/img/environment/04.jpg';
-import envi_5 from '../../assets/img/environment/03.jpg';
-
-const environments = [
-  {
-    src: envi_1
-  },
-  {
-    src: envi_2
-  },
-  {
-    src: envi_3
-  },
-  {
-    src: envi_4
-  },
-  {
-    src: envi_5
-  }
-];
-
 interface ButtonProps {
   children: React.ReactNode;
 }
@@ -51,10 +26,13 @@ interface EnviromentProps {
 
 const EnvironmentApp = ({ data }: EnviromentProps) => {
   console.log(data);
+  const [isActive, setIsActive] = useState(false);
+  const click = () => setIsActive(!isActive);
 
-  const imgs = data.map((img: any) => {
+  const imgs = data.map((obj: any) => {
     return {
-      src: img.src
+      src: obj.src
+      // sug: obj.
     };
   });
 
@@ -94,7 +72,7 @@ const EnvironmentApp = ({ data }: EnviromentProps) => {
           </IconButton>
           <IconButton>
             <IconGarden cor={color} size={size} />
-            <span className="block mt-2 text-gray">Externo</span>
+            <span className="block mt-2 text-gray">Jardim</span>
           </IconButton>
           <IconButton>
             <IconOutside cor={color} size={size} />

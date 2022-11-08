@@ -118,6 +118,23 @@ nav a:hover{
 .objheight{
   height: 90px;
 }
+.banner-home .swiper-wrapper .swiper-slide .content-tx p,
+.banner-home .swiper-wrapper .swiper-slide .content-tx button{
+  transform: translateX(100%);
+  transition: all .35s ease;
+  transition-delay: .25s;
+  opacity: 0;
+  visibility: hidden;
+}
+.banner-home .swiper-wrapper .swiper-slide .content-tx button{
+  transition-delay: .3s;
+}
+.banner-home .swiper-wrapper .swiper-slide.swiper-slide-active .content-tx p,
+.banner-home .swiper-wrapper .swiper-slide.swiper-slide-active .content-tx button{
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
 
 @media screen and (max-width: 1550px){
   .container{

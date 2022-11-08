@@ -1,11 +1,43 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Categories from '../../inc/categories.json';
 import configcss from '../../styles/configcss';
+import { useApiData } from '../context/apiDataContext';
 
 const Navigation = () => {
   const Router = useRouter();
+
+  const { apiData } = useApiData();
+
+  const submenu = apiData.categories.nodes;
+
+  const Categories = [
+    {
+      label: 'A Samlux',
+      path: '/a-samlux',
+      submenu: []
+    },
+    {
+      label: 'Produtos',
+      path: '/produtos/todos',
+      submenu: submenu
+    },
+    {
+      label: 'Projeto Personalizado',
+      path: '/contato/projeto-personalizado',
+      submenu: []
+    },
+    {
+      label: 'Downloads',
+      path: '/downloads',
+      submenu: []
+    },
+    {
+      label: 'Contato',
+      path: '/contato/fale-conosco',
+      submenu: []
+    }
+  ];
 
   return (
     <nav className="text-gray">
@@ -25,10 +57,10 @@ const Navigation = () => {
                   'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-0 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
                 }
               >
-                {submenu.map((item, index) => {
+                {submenu.map((item: any, index: number) => {
                   return (
-                    <Link key={index} href={`/produtos/${item.path}`}>
-                      <a>{item.label}</a>
+                    <Link key={index} href={`/produtos/${item.slug}`}>
+                      <a>{item.name}</a>
                     </Link>
                   );
                 })}

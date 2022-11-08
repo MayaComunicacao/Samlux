@@ -31,13 +31,9 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
   const [budget, setBudget] = useState<Product[]>(defaultValues.budget);
 
   const addBudget = (produto: Product) => {
-    console.log('context', produto.quantidade);
-
     setBudget((prev) => {
       const array = [...prev];
       const itemIndex = array.findIndex(({ slug }) => produto.slug === slug);
-
-      console.log(itemIndex);
 
       if (itemIndex === -1) {
         return [produto];
@@ -48,8 +44,6 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
       return array;
     });
   };
-
-  useEffect(() => console.log(budget), [budget]);
 
   return (
     <ContextBudget.Provider value={{ budget, addBudget }}>
