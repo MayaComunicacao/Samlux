@@ -2,12 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import configcss from '../../styles/configcss';
-import { useApiData } from '../context/apiDataContext';
 
 const Navigation = () => {
   const Router = useRouter();
 
-  const { apiData } = useApiData();
+  return null;
 
   const submenu = apiData.categories.nodes;
 

@@ -2,14 +2,13 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import ProductApp from './Product';
-import { useApiData } from '../../components/context/apiDataContext';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const RelatedsApp = () => {
-  const { apiData } = useApiData();
+  return null;
 
   const produtos = apiData.produtos.nodes.map((obj: any) => {
     return {

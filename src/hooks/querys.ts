@@ -1,13 +1,17 @@
 import { gql } from '@apollo/client';
+import { getClient } from '../lib/apollo';
+
+const ApolloClient = getClient();
 
 export const BrandsOBJ = {
   postType: 'marcasExclusivas',
+  acf: 'marcasExclusivas',
   query: function () {
-    const q = gql`
+    return gql`
       query GetPosts {
         ${this.postType} {
           nodes {
-            marcasExclusivas {
+            ${this.acf} {
               mexLogotipo {
                 mediaItemUrl
               }
@@ -16,7 +20,22 @@ export const BrandsOBJ = {
         }
       }
     `;
-    return q;
+  },
+  queryExecute: async function () {
+    const result = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    const urls =
+      result[this.postType]?.nodes?.map((item: any) => {
+        return {
+          url: item[this.postType].mexLogotipo.mediaItemUrl
+        };
+      }) || null;
+
+    console.log('t', urls);
+
+    return urls;
   }
 };
 
@@ -166,4 +185,10 @@ export const CategoriesOBJ = {
   `;
     return q;
   }
+};
+
+export const ExecuteAllQuerys = async () => {
+  const result = await BrandsOBJ.queryExecute();
+
+  return result;
 };

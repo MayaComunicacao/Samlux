@@ -45,6 +45,12 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
     });
   };
 
+  useEffect(() => {
+    if (budget.length > 0) {
+      console.log(budget);
+    }
+  }, [budget]);
+
   return (
     <ContextBudget.Provider value={{ budget, addBudget }}>
       {children}

@@ -1,25 +1,19 @@
-import type { GetStaticProps, GetServerSideProps, NextPage } from 'next';
+import type { GetStaticProps } from 'next';
 import React from 'react';
 import SlideApp from '../components/interface/Slides';
 import TitleApp from '../components/interface/Title';
 import EnvironmentApp from '../components/interface/Environment';
 import Link from 'next/link';
 import ProductApp from '../components/interface/Product';
-import ApiDataProvider from '../components/context/apiDataContext';
-import { getApolloClient } from '../lib/apollo';
-import {
-  BannersOBJ,
-  BrandsOBJ,
-  ProductsOBJ,
-  EnvironmentsOBJ,
-  CategoriesOBJ
-} from '../hooks/querys';
+import { ExecuteAllQuerys } from '../hooks/querys';
 
 type Props = {
   apiData: any;
 };
 
-const Home: NextPage<Props> = ({ apiData }: Props) => {
+const Home = ({ apiData }: Props) => {
+  return <span>Home</span>;
+
   const banners = apiData[BannersOBJ.postType].nodes.map((obj: any) => {
     return {
       src: obj.bannerHome.bannerImgDesktop.mediaItemUrl,
@@ -56,10 +50,9 @@ const Home: NextPage<Props> = ({ apiData }: Props) => {
       };
     }
   );
-  console.log(apiData[EnvironmentsOBJ.postType]);
 
   return (
-    <ApiDataProvider initialProps={apiData}>
+    <>
       <div className="banner-home">
         <SlideApp
           dot={true}
@@ -113,38 +106,18 @@ const Home: NextPage<Props> = ({ apiData }: Props) => {
           </Link>
         </div>
       </div>
-    </ApiDataProvider>
+    </>
   );
 };
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apolloClient = getApolloClient();
-
-  const [
-    { marcasExclusivas },
-    { banners },
-    { produtos },
-    { ambientes },
-    { categories }
-  ] = await Promise.all([
-    await (await apolloClient.query({ query: BrandsOBJ.query() })).data,
-    await (await apolloClient.query({ query: BannersOBJ.query() })).data,
-    await (await apolloClient.query({ query: ProductsOBJ.query() })).data,
-    await (await apolloClient.query({ query: EnvironmentsOBJ.query() })).data,
-    await (await apolloClient.query({ query: CategoriesOBJ.query() })).data
-  ]);
+export const getStaticProps: GetStaticProps = async () => {
+  const resultado = await ExecuteAllQuerys();
 
   return {
     props: {
-      apiData: {
-        marcasExclusivas,
-        produtos,
-        banners,
-        ambientes,
-        categories
-      }
+      apiData: resultado
     }
   };
 };
