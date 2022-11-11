@@ -8,23 +8,25 @@ import {
 import SlideApp from '../../components/interface/Slides';
 import MapApp from '../../components/interface/Map';
 import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
+import { GetStaticPaths } from 'next';
+import { CategoriesOBJ } from '../../hooks/querys';
 
 // Imagens
 import workimg from '../../assets/img/trabalhe-conosco.jpg';
 import image_1 from '../../assets/img/01.jpg';
 import image_2 from '../../assets/img/02.jpg';
-import { NextPage } from 'next';
 
 const imagens = [
   {
-    src: image_1
+    url: image_1
   },
   {
-    src: image_2
+    url: image_2
   }
 ];
 
-const PageContactsApp: NextPage = () => {
+const PageContactsApp = () => {
   const Router = useRouter();
 
   const [paddingLeft, setPaddingLeft] = useState(0);
@@ -117,3 +119,27 @@ const PageContactsApp: NextPage = () => {
 };
 
 export default PageContactsApp;
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      { params: { form: 'fale-conosco' } },
+      { params: { form: 'trabalhe-conosco' } },
+      { params: { form: 'projeto-personalizado' } }
+    ],
+    fallback: false
+  };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+
+  return {
+    props: {
+      apiData: {
+        navigation
+      }
+    },
+    revalidate: 30
+  };
+};

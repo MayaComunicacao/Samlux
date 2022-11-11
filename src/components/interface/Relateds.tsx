@@ -7,24 +7,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const RelatedsApp = () => {
-  return null;
+type Props = {
+  products: any[];
+};
 
-  const produtos = apiData.produtos.nodes.map((obj: any) => {
-    return {
-      produto: {
-        title: obj.title,
-        ...obj.produto,
-        featuredImage: {
-          url: obj.featuredImage?.node.sourceUrl,
-          sizes: obj.featuredImage?.node.mediaDetails
-        },
-        url: obj.uri,
-        slug: obj.slug
-      }
-    };
-  });
-
+const RelatedsApp = ({ products }: Props) => {
   return (
     <Swiper
       modules={[Navigation, Pagination]}
@@ -46,19 +33,16 @@ const RelatedsApp = () => {
         }
       }}
     >
-      {produtos.map((item: any, index: number) => {
-        const { produto } = item;
-
+      {products?.map((produto: any, index: number) => {
         return (
           <SwiperSlide key={`${index}`}>
             <ProductApp
-              key={`${index}`}
               title={produto.title}
-              cod={produto.prodCodigo}
-              img={produto.featuredImage.url}
-              originalWidth={produto.featuredImage.sizes.width}
-              originalHeight={produto.featuredImage.sizes.height}
-              url={produto.url}
+              cod={produto.codigo}
+              img={produto.img.url}
+              originalWidth={produto.img.width}
+              originalHeight={produto.img.height}
+              uri={produto.uri}
               slug={produto.slug}
             />
           </SwiperSlide>

@@ -12,45 +12,6 @@ type Props = {
 };
 
 const Home = ({ apiData }: Props) => {
-  return <span>Home</span>;
-
-  const banners = apiData[BannersOBJ.postType].nodes.map((obj: any) => {
-    return {
-      src: obj.bannerHome.bannerImgDesktop.mediaItemUrl,
-      text: obj.bannerHome.bannerText,
-      text_button: obj.bannerHome.bannerTxBotao
-    };
-  });
-
-  const logos = apiData[BrandsOBJ.postType].nodes.map((obj: any) => {
-    return {
-      src: obj[BrandsOBJ.postType].mexLogotipo.mediaItemUrl
-    };
-  });
-
-  const produtos = apiData[ProductsOBJ.postType].nodes.map((obj: any) => {
-    return {
-      produto: {
-        title: obj.title,
-        ...obj.produto,
-        featuredImage: {
-          url: obj.featuredImage?.node.sourceUrl,
-          sizes: obj.featuredImage?.node.mediaDetails
-        },
-        url: obj.uri
-      }
-    };
-  });
-
-  const environment = apiData[EnvironmentsOBJ.postType].nodes.map(
-    (obj: any) => {
-      return {
-        src: obj.ambientes.imagemDoAmbiente.mediaItemUrl,
-        category: obj.categories
-      };
-    }
-  );
-
   return (
     <>
       <div className="banner-home">
@@ -58,7 +19,7 @@ const Home = ({ apiData }: Props) => {
           dot={true}
           nav={false}
           qnt={[1, 1, 1]}
-          imgs={banners}
+          imgs={apiData.banners}
           size={false}
           play={true}
         />
@@ -71,30 +32,28 @@ const Home = ({ apiData }: Props) => {
             dot={true}
             nav={false}
             qnt={[3, 4, 6]}
-            imgs={logos}
+            imgs={apiData.marcasExclusivas}
             size={false}
             play={true}
           />
         </div>
       </div>
 
-      <EnvironmentApp data={environment} />
+      <EnvironmentApp data={apiData.environments} />
 
       <div className="container py-14">
         <TitleApp text={'Lançamentos'} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8 my-8">
-          {produtos.map((item: any, index: number) => {
-            const { produto } = item;
-
+          {apiData.products.map((produto: any, index: number) => {
             return (
               <ProductApp
                 key={`${index}`}
                 title={produto.title}
-                cod={produto.prodCodigo}
-                img={produto?.featuredImage.url}
-                originalWidth={produto.featuredImage.sizes.width}
-                originalHeight={produto.featuredImage.sizes.height}
-                url={produto.url}
+                cod={produto.codigo}
+                img={produto.img.url}
+                originalWidth={produto.img.width}
+                originalHeight={produto.img.height}
+                uri={produto.uri}
                 slug={produto.slug}
               />
             );
@@ -118,6 +77,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       apiData: resultado
-    }
+    },
+    revalidate: 30
   };
 };

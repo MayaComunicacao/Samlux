@@ -1,33 +1,18 @@
-import { GetStaticProps, GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import React from 'react';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import FilterApp from '../../components/interface/Filter';
 import ProductApp from '../../components/interface/Product';
-import { ProductsOBJ } from '../../hooks/querys';
-import { getApolloClient } from '../../lib/apollo';
+import { CategoriesOBJ, ProductsOBJ } from '../../hooks/querys';
 
 type Props = {
   apiData: any;
 };
 
 const Products = ({ apiData }: Props) => {
-  const produtos = apiData[ProductsOBJ.postType].nodes.map((obj: any) => {
-    return {
-      produto: {
-        title: obj.title,
-        ...obj.produto,
-        featuredImage: {
-          url: obj.featuredImage?.node.sourceUrl,
-          sizes: obj.featuredImage?.node.mediaDetails
-        },
-        url: obj.uri
-      }
-    };
-  });
-
   return (
     <div className="container">
-      <BreadcrumbApp path={'Teto'} />
+      <BreadcrumbApp />
       <div className="pt-8 pb-14 block lg:flex">
         <div className="w-full lg:w-[280px] lg:mt-14">
           <FilterApp />
@@ -35,18 +20,16 @@ const Products = ({ apiData }: Props) => {
         <div className="w-full lg:w-[calc(100%_-_280px)]">
           <h1 className="text-3xl text-gray mb-5">Todos os produtos</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-3 gap-4 lg:gap-6">
-            {produtos.map((item: any, index: number) => {
-              const { produto } = item;
-
+            {apiData.products.map((produto: any, index: number) => {
               return (
                 <ProductApp
                   key={`${index}`}
                   title={produto.title}
-                  cod={produto.prodCodigo}
-                  img={produto.featuredImage.url}
-                  originalWidth={produto.featuredImage.sizes.width}
-                  originalHeight={produto.featuredImage.sizes.height}
-                  url={produto.url}
+                  cod={produto.codigo}
+                  img={produto.img.url}
+                  originalWidth={produto.img.width}
+                  originalHeight={produto.img.height}
+                  uri={produto.uri}
                   slug={produto.slug}
                 />
               );
@@ -60,18 +43,34 @@ const Products = ({ apiData }: Props) => {
 
 export default Products;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apolloClient = getApolloClient();
+export const getStaticPaths: GetStaticPaths = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
 
-  const [{ produtos }] = await Promise.all([
-    await (await apolloClient.query({ query: ProductsOBJ.query() })).data
-  ]);
+  const paths = navigation?.map((item: { slug: string }) => {
+    return {
+      params: {
+        category: item.slug
+      }
+    };
+  });
+
+  return {
+    paths,
+    fallback: 'blocking'
+  };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const products = await (await ProductsOBJ.queryExecute()).products;
 
   return {
     props: {
       apiData: {
-        produtos
+        navigation,
+        products
       }
-    }
+    },
+    revalidate: 30
   };
 };

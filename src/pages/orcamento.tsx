@@ -1,13 +1,13 @@
-import { NextPage } from 'next';
+import type { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import { useBudget } from '../components/context/context';
 import ItemBudget from '../components/interface/ItemBudget';
 import TitleApp from '../components/interface/Title';
+import { CategoriesOBJ } from '../hooks/querys';
 
-const PageOrcamento: NextPage = () => {
-  const { state } = useBudget();
-  console.log(state);
+const PageOrcamento = () => {
+  const { budget } = useBudget();
 
   return (
     <>
@@ -15,10 +15,20 @@ const PageOrcamento: NextPage = () => {
         <TitleApp text={'Finalizar orçamento'} />
 
         <div className="my-8 grid grid-cols-4 gap-8">
-          <ItemBudget />
-          <ItemBudget />
-          <ItemBudget />
-          <ItemBudget />
+          {budget.length > 0 &&
+            budget.map((product, index: number) => {
+              return (
+                <ItemBudget
+                  key={`${index}`}
+                  title={product.title}
+                  uri={product.uri}
+                  slug={product.slug}
+                  codigo={product.codigo}
+                  img={product.img}
+                  quantidade={product.quantidade}
+                />
+              );
+            })}
         </div>
 
         <div className="text-center mt-12">
@@ -34,3 +44,16 @@ const PageOrcamento: NextPage = () => {
 };
 
 export default PageOrcamento;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+
+  return {
+    props: {
+      apiData: {
+        navigation
+      }
+    },
+    revalidate: 30
+  };
+};

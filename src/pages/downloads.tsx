@@ -1,8 +1,9 @@
-import { NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import React, { useState } from 'react';
 import ArquiveDownload from '../components/interface/ArquiveDownload';
 import Arquives from '../assets/images/arquives.json';
 import ConfigCss from '../styles/configcss';
+import { CategoriesOBJ } from '../hooks/querys';
 
 interface DownloadProps {
   name: string;
@@ -18,7 +19,7 @@ const StyleButtons = {
 
 type TypeArquiveProp = 'catalogos' | '3ds' | 'fotos';
 
-const Download: NextPage = () => {
+const Download = () => {
   const [TypeArquive, setTypeArquive] = useState<TypeArquiveProp>('catalogos');
   const SetType = (type: TypeArquiveProp) => {
     setTypeArquive(type);
@@ -64,3 +65,16 @@ const Download: NextPage = () => {
 };
 
 export default Download;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+
+  return {
+    props: {
+      apiData: {
+        navigation
+      }
+    },
+    revalidate: 30
+  };
+};

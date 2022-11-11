@@ -51,7 +51,7 @@ const FooterApp = () => {
           </div>
         </div>
         <p className="text-center text-sm text-gray pt-4 border-t border-t-zinc-300 mt-8">
-          © Sanlux {new Date().getFullYear()} | Todos os direitos reservados.
+          © Samlux {new Date().getFullYear()} | Todos os direitos reservados.
           Desenvlvido por
           <a
             href="https://mayacomunicacao.com.br"

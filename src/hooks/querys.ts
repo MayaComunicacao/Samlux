@@ -8,7 +8,7 @@ export const BrandsOBJ = {
   acf: 'marcasExclusivas',
   query: function () {
     return gql`
-      query GetPosts {
+      query GetBrands {
         ${this.postType} {
           nodes {
             ${this.acf} {
@@ -33,20 +33,21 @@ export const BrandsOBJ = {
         };
       }) || null;
 
-    console.log('t', urls);
-
-    return urls;
+    return {
+      marcasExclusivas: urls
+    };
   }
 };
 
 export const BannersOBJ = {
   postType: 'banners',
+  acf: 'bannerHome',
   query: function () {
-    const q = gql`
-      query GetPosts {
+    return gql`
+      query GetBanners {
         ${this.postType} {
           nodes {
-            bannerHome {
+            ${this.acf} {
               bannerImgDesktop {
                 mediaItemUrl
               }
@@ -58,15 +59,35 @@ export const BannersOBJ = {
         }
       }
     `;
-    return q;
+  },
+  queryExecute: async function () {
+    const result = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    const banners =
+      result[this.postType]?.nodes?.map((banner: any) => {
+        const item = banner.bannerHome;
+
+        return {
+          url: item.bannerImgDesktop.mediaItemUrl,
+          link: item.bannerLink,
+          bannerText: item.bannerText,
+          bannerTxButton: item.bannerTxBotao
+        };
+      }) || [];
+
+    return {
+      banners
+    };
   }
 };
 
 export const ProductsOBJ = {
   postType: 'produtos',
   query: function () {
-    const q = gql`
-    query GetPosts {
+    return gql`
+    query GetProducts {
       ${this.postType} {
         nodes {
           title,
@@ -88,22 +109,47 @@ export const ProductsOBJ = {
       }
     }
   `;
-    return q;
+  },
+  queryExecute: async function () {
+    const result = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    const products = result[this.postType]?.nodes?.map((item: any) => {
+      const product = item;
+
+      return {
+        title: product.title,
+        codigo: product.produto.prodCodigo,
+        img: {
+          url: product.featuredImage.node.sourceUrl,
+          width: product.featuredImage.node.mediaDetails.width,
+          height: product.featuredImage.node.mediaDetails.height
+        },
+        uri: product.uri,
+        slug: product.slug
+      };
+    });
+
+    return {
+      products
+    };
   }
 };
 
 export const ProductOBJ = {
   postType: 'produto',
+  acf: 'produto',
   query: function () {
-    const q = gql`
+    return gql`
     query GetProduct($slug: ID!) {
       ${this.postType}(id: $slug, idType: SLUG) {
         title,
-        produto {
+        ${this.acf} {
           prodCodigo
-          proImagens{
+          proImagens {
             mediaItemUrl,
-            mediaDetails{
+            mediaDetails {
               sizes {
                 height
                 width
@@ -120,18 +166,18 @@ export const ProductOBJ = {
         },
         uri,
         slug,
-        categories{
-          nodes{
+        categories {
+          nodes {
             slug
           }
         },
-        featuredImage{
-          node{
+        featuredImage {
+          node {
             sourceUrl
             mediaDetails {
               height
               width
-              sizes{
+              sizes {
                 sourceUrl
               }
             }
@@ -140,24 +186,33 @@ export const ProductOBJ = {
       }
     }
   `;
-    return q;
+  },
+  queryExecute: async function (slug: string) {
+    const result = await (
+      await ApolloClient.query({ query: this.query(), variables: { slug } })
+    ).data;
+
+    return {
+      result
+    };
   }
 };
 
 export const EnvironmentsOBJ = {
   postType: 'ambientes',
+  acf: 'ambientes',
   query: function () {
-    const q = gql`
-    query GetPosts {
+    return gql`
+    query GetEnvironments {
       ${this.postType} {
-        nodes{
-          ambientes{
+        nodes {
+          ${this.acf} {
             imagemDoAmbiente{
               mediaItemUrl
             }
           },
           categories{
-            nodes{
+            nodes {
               name,
               slug
             }
@@ -166,29 +221,87 @@ export const EnvironmentsOBJ = {
       }
     }
   `;
-    return q;
+  },
+  queryExecute: async function () {
+    const result = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    const environments = result[this.postType]?.nodes?.map(
+      (environment: any) => {
+        const item = environment;
+
+        return {
+          img: item.ambientes.imagemDoAmbiente.mediaItemUrl,
+          categories:
+            item.categories?.nodes.map((categorie: any) => {
+              return {
+                name: categorie.name,
+                slug: categorie.slug
+              };
+            }) || []
+        };
+      }
+    );
+
+    return {
+      environments
+    };
   }
 };
 
 export const CategoriesOBJ = {
   postType: 'categories',
   query: function () {
-    const q = gql`
-    query GetPosts {
+    return gql`
+    query GetNavigation {
       ${this.postType} {
-        nodes{
+        nodes {
           name,
           slug
         }
       }
     }
   `;
-    return q;
+  },
+  queryExecute: async function () {
+    const result = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    const navigation = result[this.postType]?.nodes?.map((item: any) => {
+      return {
+        name: item.name,
+        slug: item.slug
+      };
+    });
+
+    return {
+      navigation
+    };
   }
 };
 
 export const ExecuteAllQuerys = async () => {
-  const result = await BrandsOBJ.queryExecute();
+  const [
+    { marcasExclusivas },
+    { banners },
+    { environments },
+    { navigation },
+    { products }
+  ] = await Promise.all([
+    await BrandsOBJ.queryExecute(),
+    await BannersOBJ.queryExecute(),
+    await EnvironmentsOBJ.queryExecute(),
+    await CategoriesOBJ.queryExecute(),
+    await ProductsOBJ.queryExecute()
+  ]);
 
-  return result;
+  return {
+    marcasExclusivas,
+    banners,
+    environments,
+    navigation,
+    products
+  };
 };

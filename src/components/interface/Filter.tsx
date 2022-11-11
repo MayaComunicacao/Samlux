@@ -7,7 +7,7 @@ const CategoriesApp = [
     options: ['opcao 1', 'opcao 2', 'opcao 3']
   },
   {
-    category: 'Pared',
+    category: 'Parede',
     options: ['opcao 1', 'opcao 2', 'opcao 3']
   },
   {
@@ -19,11 +19,11 @@ const CategoriesApp = [
     options: ['opcao 1', 'opcao 2', 'opcao 3']
   },
   {
-    category: 'Jardi',
+    category: 'Jardim',
     options: ['opcao 1', 'opcao 2', 'opcao 3']
   },
   {
-    category: 'Exter',
+    category: 'Externo',
     options: ['opcao 1', 'opcao 2', 'opcao 3']
   }
 ];

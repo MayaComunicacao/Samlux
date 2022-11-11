@@ -1,24 +1,22 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import ProductSlideImage from '../../components/interface/ProductSlideImage';
 import ButtonsApp from '../../components/interface/Buttons';
 import TitleApp from '../../components/interface/Title';
 import RelatedsApp from '../../components/interface/Relateds';
-import { getApolloClient } from '../../lib/apollo';
-import { ProductOBJ, ProductsOBJ } from '../../hooks/querys';
+import { CategoriesOBJ, ProductOBJ, ProductsOBJ } from '../../hooks/querys';
 
 type Props = {
   apiData: any;
 };
 
-const Produto({ apiData }: Props) => {
-  const data = apiData[ProductOBJ.postType];
-  console.log('[name]', data);
+const Produto = ({ apiData }: Props) => {
+  const data = apiData.product.produto;
 
   return (
     <div className="container">
-      <BreadcrumbApp path={data.title} />
+      <BreadcrumbApp />
       <div className="sm:flex pt-8 sm:pt-14 pb-14">
         <div className="w-full sm:w-1/2 pr-0 sm:pr-8">
           <ProductSlideImage gallery={data.produto.proImagens} />
@@ -78,13 +76,14 @@ const Produto({ apiData }: Props) => {
             slug={data.slug}
             codigo={data.prodCodigo}
             img={data.featuredImage.node.sourceUrl}
+            uri={data.uri}
           />
         </div>
       </div>
 
       <TitleApp text={'Produtos relacionados'} />
       <div className="relateds mt-4">
-        <RelatedsApp />
+        <RelatedsApp products={apiData.products} />
       </div>
     </div>
   );
@@ -92,29 +91,52 @@ const Produto({ apiData }: Props) => {
 
 export default Produto;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apolloClient = getApolloClient();
+export const getStaticPaths: GetStaticPaths = async () => {
+  const products = await (await ProductsOBJ.queryExecute()).products;
 
-  const [{ produto }, { produtos }] = await Promise.all([
-    await (
-      await apolloClient.query({
-        query: ProductOBJ.query(),
-        variables: { slug: 'produto-teste' }
-      })
-    ).data,
-    await (
-      await apolloClient.query({
-        query: ProductsOBJ.query()
-      })
-    ).data
-  ]);
+  const paths = products?.map((product: { slug: string }) => {
+    return {
+      params: {
+        name: product.slug
+      }
+    };
+  });
 
   return {
-    props: {
-      apiData: {
-        produto,
-        produtos
-      }
+    paths,
+    fallback: 'blocking'
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  if (params && params.name) {
+    const { name } = params;
+
+    const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+    const products = await (await ProductsOBJ.queryExecute()).products;
+    const product = await (
+      await ProductOBJ.queryExecute(name as string)
+    ).result;
+
+    if (!product) {
+      return {
+        notFound: true
+      };
     }
+
+    return {
+      props: {
+        apiData: {
+          navigation,
+          products,
+          product
+        }
+      },
+      revalidate: 30
+    };
+  }
+
+  return {
+    notFound: true
   };
 };

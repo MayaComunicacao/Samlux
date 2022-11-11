@@ -7,15 +7,16 @@ import HeaderApp from './Header';
 
 interface Props {
   children: ReactNode;
+  apiData: any;
 }
 
-const MainApp = ({ children }: Props) => {
+const MainApp = ({ children, apiData }: Props) => {
   const Router = useRouter();
 
   return (
     <>
       <HeadApp />
-      <HeaderApp />
+      <HeaderApp apiData={apiData} />
 
       {Router.route != '/orcamento' && <ModalBudget />}
 

@@ -10,7 +10,11 @@ import { IoMdClose } from 'react-icons/io';
 import { useMenu } from '../context/contextMenu';
 import Link from 'next/link';
 
-const HeaderApp = () => {
+interface Props {
+  apiData: any;
+}
+
+const HeaderApp = ({ apiData }: Props) => {
   const { state: isActive, setStatusMenu } = useMenu();
 
   const menuRef = useRef(null);
@@ -23,7 +27,7 @@ const HeaderApp = () => {
         <div className="container">
           <div className="flex w-full items-center">
             <div className="w-[calc(50%_-_90px)]">
-              <Navigation />
+              <Navigation apiData={apiData} />
             </div>
             <div className="w-[160px]">
               <Link href="/" passHref>
@@ -62,7 +66,7 @@ const HeaderApp = () => {
           >
             <IoMdClose size="24px" color={configcss.colors.gray} />
           </button>
-          <Navigation />
+          <Navigation apiData={apiData} />
           <div
             className={
               'block w-full] mt-8 lg:flex lg:items-center lg:justify-end lg:w-[calc(50%_-_90px)]'

@@ -9,7 +9,7 @@ type Props = {
   img: string;
   originalWidth: string;
   originalHeight: string;
-  url: string;
+  uri: string;
   slug: string;
 };
 
@@ -19,14 +19,14 @@ const ProductApp = ({
   img,
   originalWidth,
   originalHeight,
-  url,
+  uri,
   slug
 }: Props) => {
   return (
     <div>
       <input type="hidden" name="" />
       <div className="border border-gray">
-        <Link href={`${url}`}>
+        <Link href={`${uri}`}>
           <a className="relative">
             {img && (
               <Image
@@ -34,6 +34,7 @@ const ProductApp = ({
                 width={originalWidth}
                 height={originalHeight}
                 src={img}
+                priority={true}
               />
             )}
           </a>
@@ -45,6 +46,7 @@ const ProductApp = ({
         slug={slug}
         codigo={cod}
         img={img}
+        uri={uri}
       />
       <div className="text-center py-2">
         {title && <p>{title}</p>}

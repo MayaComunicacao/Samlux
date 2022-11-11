@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useBudget } from '../context/context';
+import { toast } from 'react-toastify';
 
 interface PageProps {
   page: string;
@@ -8,9 +9,11 @@ interface PageProps {
   codigo: string;
   img: string;
   slug: string;
+  uri: string;
 }
 
-const ButtonsApp = ({ page, title, slug, codigo, img }: PageProps) => {
+const ButtonsApp = ({ page, title, slug, codigo, img, uri }: PageProps) => {
+  const { addBudget } = useBudget();
   const [counter, setCounter] = useState(1);
 
   const increase = () => {
@@ -27,7 +30,10 @@ const ButtonsApp = ({ page, title, slug, codigo, img }: PageProps) => {
     setCounter(Number(e.target.value));
   };
 
-  const { addBudget } = useBudget();
+  const Notify = useCallback(
+    (qnt: number) => toast(`produto incluido: quantidade ${qnt}`),
+    []
+  );
 
   const handleClickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -37,8 +43,11 @@ const ButtonsApp = ({ page, title, slug, codigo, img }: PageProps) => {
       codigo,
       img,
       slug,
-      quantidade: counter
+      quantidade: counter,
+      uri: uri
     });
+
+    Notify(counter);
   };
 
   if (page === 'category') {
@@ -72,7 +81,7 @@ const ButtonsApp = ({ page, title, slug, codigo, img }: PageProps) => {
         >
           Orçar
         </button>
-        <Link href="/produto/Luminaria">
+        <Link href={uri}>
           <a className="py-1 px-3 text-xs text-center uppercase bg-bg text-gray w-[calc(50%_-_50px)] leading-5">
             Visualizar
           </a>

@@ -6,18 +6,20 @@ import Image, { StaticImageData } from 'next/image';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import Link from 'next/link';
 
 interface PropsSlide {
-  nav: boolean;
-  dot: boolean;
+  nav?: boolean;
+  dot?: boolean;
   qnt: [number, number, number];
   imgs: {
-    src: StaticImageData;
-    text?: string;
-    text_button?: string;
+    url: StaticImageData | string;
+    bannerText?: string;
+    bannerTxButton?: string;
+    link?: string;
   }[];
-  size: boolean;
-  play: boolean;
+  size?: boolean;
+  play?: boolean;
 }
 
 const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
@@ -86,7 +88,8 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
               <Image
                 layout="fill"
                 objectFit="cover"
-                src={item.src}
+                src={item.url}
+                priority={true}
                 onLoadingComplete={({
                   naturalWidth: width,
                   naturalHeight: height
@@ -96,21 +99,23 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
 
             <div
               className={
-                item.text || item.text_button
+                item.bannerText || item.bannerTxButton
                   ? 'flex items-center absolute top-0 left-0 w-full h-full bg-black/70'
                   : 'hidden'
               }
             >
               <div className="content-tx text-white container py-30 sm:py-4 text-center sm:text-left">
-                {item.text && (
+                {item.bannerText && (
                   <p className="text-3xl w-full font-bold sm:text-5xl xl:text-7xl sm:w-[60%] xl:w-[33%]">
-                    {item.text}
+                    {item.bannerText}
                   </p>
                 )}
-                {item.text_button && (
-                  <button className="bg-white text-sm sm:text-base mt-5 text-black py-2 px-5 uppercase">
-                    {item.text_button}
-                  </button>
+                {item.bannerTxButton && item.link && (
+                  <Link href={item.link} passHref={true}>
+                    <a className="block w-[fit-content] bg-white text-sm sm:text-base mt-5 text-black py-2 px-5 uppercase">
+                      {item.bannerTxButton}
+                    </a>
+                  </Link>
                 )}
               </div>
             </div>

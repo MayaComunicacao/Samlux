@@ -135,6 +135,9 @@ nav a:hover{
   opacity: 1;
   visibility: visible;
 }
+.Toastify__progress-bar-theme--light {
+  background: #0eb9b3 !important;
+}
 
 @media screen and (max-width: 1550px){
   .container{

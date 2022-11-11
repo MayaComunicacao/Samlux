@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import React, { useEffect, useState } from 'react';
 import SlideApp from '../components/interface/Slides';
 import TitleApp from '../components/interface/Title';
@@ -8,16 +9,17 @@ import Video from '../assets/img/video.jpg';
 import image_1 from '../assets/img/empresa-1.jpg';
 import image_2 from '../assets/img/empresa-2.jpg';
 import image_3 from '../assets/img/empresa-3.jpg';
+import { CategoriesOBJ } from '../hooks/querys';
 
 const imagens = [
   {
-    src: image_1
+    url: image_1
   },
   {
-    src: image_2
+    url: image_2
   },
   {
-    src: image_3
+    url: image_3
   }
 ];
 
@@ -77,3 +79,16 @@ const AboutApp = () => {
 };
 
 export default AboutApp;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+
+  return {
+    props: {
+      apiData: {
+        navigation
+      }
+    },
+    revalidate: 30
+  };
+};

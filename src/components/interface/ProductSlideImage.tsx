@@ -9,8 +9,6 @@ type Props = {
 const MyImageGallery = ({ gallery }: Props) => {
   const [width, setWidth] = useState(0);
 
-  console.log(gallery);
-
   const images = gallery.map((item: any) => {
     const el = item.mediaDetails.sizes.find((item: any) => item.width === 150);
 

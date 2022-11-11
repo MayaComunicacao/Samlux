@@ -1,19 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FaClipboardList } from 'react-icons/fa';
 import configcss from '../../styles/configcss';
 import Link from 'next/link';
 import ItemBudget from './ItemBudget';
 import { IoMdClose } from 'react-icons/io';
+import { useBudget } from '../context/context';
 
 const ModalBudget = () => {
-  const menuRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const onClick = () => setIsActive(!isActive);
+
+  const { budget } = useBudget();
 
   return (
     <>
       <div
-        ref={menuRef}
         className={`fixed top-0 right-0 z-20 w-full max-w-sm bg-white h-screen shadow-xl translate-x-full transition-all ${
           isActive ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -33,7 +34,20 @@ const ModalBudget = () => {
           <h3 className="text-2xl font-bold">Produtos</h3>
           <small>Lista dos produtos para orçamento</small>
 
-          <ItemBudget />
+          {budget.length > 0 &&
+            budget.map((product, index: number) => {
+              return (
+                <ItemBudget
+                  key={`${index}`}
+                  title={product.title}
+                  uri={product.uri}
+                  slug={product.slug}
+                  codigo={product.codigo}
+                  img={product.img}
+                  quantidade={product.quantidade}
+                />
+              );
+            })}
 
           <div className="absolute bottom-8 left-0 text-center w-full px-8">
             <Link href="/orcamento">

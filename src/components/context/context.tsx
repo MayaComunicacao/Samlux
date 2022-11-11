@@ -1,23 +1,28 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-interface Product {
+export interface Product {
   title: string;
   codigo: string;
   img: string;
   slug: string;
   quantidade: number;
+  uri: string;
 }
 
 const defaultValues = {
   budget: [],
   addBudget: (produto: Product) => {
     produto;
+  },
+  removeBudget: (slug: string) => {
+    slug;
   }
 };
 
 interface ContextProps {
   budget: Product[];
   addBudget: (produto: Product) => void;
+  removeBudget: (slug: string) => void;
 }
 
 interface ModalProviderProps {
@@ -45,6 +50,13 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
     });
   };
 
+  const removeBudget = (slug: string) => {
+    setBudget((prev) => {
+      const array = prev.filter((item) => item.slug !== slug);
+      return array;
+    });
+  };
+
   useEffect(() => {
     if (budget.length > 0) {
       console.log(budget);
@@ -52,7 +64,7 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
   }, [budget]);
 
   return (
-    <ContextBudget.Provider value={{ budget, addBudget }}>
+    <ContextBudget.Provider value={{ budget, addBudget, removeBudget }}>
       {children}
     </ContextBudget.Provider>
   );
