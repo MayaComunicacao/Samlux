@@ -83,7 +83,7 @@ const EnvironmentApp = ({ data }: EnviromentProps) => {
         onClick={() => handleClick(slug)}
         className={
           active
-            ? 'px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12 border-2 border-greenlight rounded-md'
+            ? 'px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12 border border-gray rounded-md'
             : 'px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12'
         }
       >
@@ -105,15 +105,7 @@ const EnvironmentApp = ({ data }: EnviromentProps) => {
                 slug={element.text}
               >
                 {element.comp}
-                <span
-                  className={
-                    active === element.text
-                      ? 'block mt-2 text-greenlight'
-                      : 'block mt-2 text-gray'
-                  }
-                >
-                  {element.text}
-                </span>
+                <span className="block mt-2 text-gray">{element.text}</span>
               </IconButton>
             );
           })}
