@@ -25,7 +25,7 @@ const ProductApp = ({
   return (
     <div>
       <input type="hidden" name="" />
-      <div className="border border-gray">
+      <div className="border border-gray min-h-[482px] md:min-h-[564px]">
         <Link href={`${uri}`}>
           <a className="relative">
             {img && (

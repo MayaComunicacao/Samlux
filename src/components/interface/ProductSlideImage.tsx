@@ -10,7 +10,9 @@ const MyImageGallery = ({ gallery }: Props) => {
   const [width, setWidth] = useState(0);
 
   const images = gallery.map((item: any) => {
-    const el = item.mediaDetails.sizes.find((item: any) => item.width === 150);
+    const el = item?.mediaDetails?.sizes?.find(
+      (item: any) => Number(item.width) === 150
+    );
 
     return {
       original: item.mediaItemUrl,
