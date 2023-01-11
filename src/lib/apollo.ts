@@ -4,7 +4,7 @@ import {
   NormalizedCacheObject
 } from '@apollo/client';
 
-const API_ENDPOINT = `${process.env.GRAPHQL_END_POINT}`;
+const API_ENDPOINT = `${process.env.GRAPHQL_ENDPOINT}`;
 
 let cachedClient: any = null;
 
