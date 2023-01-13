@@ -7,33 +7,23 @@ type Props = {
   title: string;
   cod: string;
   img: string;
-  originalWidth: string;
-  originalHeight: string;
   uri: string;
   slug: string;
 };
 
-const ProductApp = ({
-  title,
-  cod,
-  img,
-  originalWidth,
-  originalHeight,
-  uri,
-  slug
-}: Props) => {
+const ProductApp = ({ title, cod, img, uri, slug }: Props) => {
   return (
     <div>
       <input type="hidden" name="" />
-      <div className="border border-gray min-h-[482px] md:min-h-[564px]">
-        <Link href={`${uri}`}>
-          <a className="relative">
+      <div className="border border-gray">
+        <Link href={`${uri}`} passHref={true}>
+          <a className="block relative w-full aspect-square">
             {img && (
               <Image
-                layout="responsive"
-                width={originalWidth}
-                height={originalHeight}
+                layout="fill"
                 src={img}
+                objectFit="cover"
+                objectPosition="center"
                 priority={true}
               />
             )}

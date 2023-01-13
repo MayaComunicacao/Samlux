@@ -88,10 +88,17 @@ export const ProductsOBJ = {
   query: function () {
     return gql`
     query GetProducts {
-      ${this.postType} {
+      ${this.postType}(first: 50) {
         nodes {
           title,
           produto {
+            imagemPrincipal {
+              sourceUrl
+              mediaDetails {
+                width
+                height
+              }
+            }
             prodCodigo
           },
           featuredImage{
@@ -122,9 +129,9 @@ export const ProductsOBJ = {
         title: product.title,
         codigo: product.produto.prodCodigo,
         img: {
-          url: product.featuredImage.node.sourceUrl,
-          width: product.featuredImage.node.mediaDetails.width,
-          height: product.featuredImage.node.mediaDetails.height
+          url: product?.produto.imagemPrincipal?.sourceUrl || null,
+          width: product?.produto.imagemPrincipal?.mediaDetails?.width || null,
+          height: product?.produto.imagemPrincipal?.mediaDetails?.height || null
         },
         uri: product.uri,
         slug: product.slug
@@ -146,7 +153,28 @@ export const ProductOBJ = {
       ${this.postType}(id: $slug, idType: SLUG) {
         title,
         ${this.acf} {
+          selecaoVolts
           prodCodigo
+          fotoscores {
+            corImage
+            imagensCor {
+              sourceUrl
+              mediaDetails {
+                sizes {
+                  width
+                  height
+                  sourceUrl
+                }
+              }
+            }
+          },
+          imagemPrincipal {
+            sourceUrl
+            mediaDetails {
+              height
+              width
+            }
+          },
           proImagens {
             mediaItemUrl,
             mediaDetails {
@@ -170,19 +198,7 @@ export const ProductOBJ = {
           nodes {
             slug
           }
-        },
-        featuredImage {
-          node {
-            sourceUrl
-            mediaDetails {
-              height
-              width
-              sizes {
-                sourceUrl
-              }
-            }
-          }
-        },
+        }
       }
     }
   `;

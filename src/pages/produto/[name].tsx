@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import ProductSlideImage from '../../components/interface/ProductSlideImage';
@@ -14,12 +14,22 @@ type Props = {
 const Produto = ({ apiData }: Props) => {
   const data = apiData.product.produto;
 
+  const [corSelecionadaIndex, setCorSelecionadaIndex] = useState<number | null>(
+    null
+  );
+
   return (
     <div className="container">
       <BreadcrumbApp />
       <div className="sm:flex pt-8 sm:pt-14 pb-14">
         <div className="w-full sm:w-1/2 pr-0 sm:pr-8">
-          <ProductSlideImage gallery={data.produto.proImagens} />
+          <ProductSlideImage
+            gallery={
+              corSelecionadaIndex !== null
+                ? data.produto.fotoscores[corSelecionadaIndex].imagensCor
+                : data.produto.proImagens
+            }
+          />
         </div>
         <div className="w-full mt-8 sm:mt-0 sm:w-1/2 pl-0 lg:pl-8 text-gray">
           <h1 className="text-4xl font-semibold text-green">{data.title}</h1>
@@ -53,6 +63,57 @@ const Produto = ({ apiData }: Props) => {
               })}
             </ul>
           )}
+          {data?.produto?.selecaoVolts?.length > 0 && (
+            <div className="flex flex-nowrap gap-8 pl-1 pb-6">
+              {data.produto.selecaoVolts.map((item: string, index: number) => {
+                return (
+                  <div key={index} className="flex gap-2">
+                    <input
+                      type="radio"
+                      name="voltagem"
+                      value={item}
+                      id={`volt-${index}`}
+                    />
+                    <label htmlFor={`volt-${index}`}>{`${item}v`}</label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {data?.produto?.fotoscores?.length > 0 && (
+            <div className="flex gap-4 pl-1">
+              {data.produto.fotoscores.map((item: any, index: number) => {
+                return (
+                  <button
+                    key={index}
+                    className={`block w-[30px] h-[30px] p-1 ${
+                      corSelecionadaIndex === index
+                        ? 'border border-current'
+                        : null
+                    }`}
+                    onClick={() => setCorSelecionadaIndex(index)}
+                  >
+                    <span
+                      className="block w-full h-full"
+                      style={{
+                        backgroundColor: `${item.corImage}`
+                      }}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {data?.produto?.fotoscores?.length > 0 && (
+            <div className="block pt-6 pl-1">
+              <button
+                className="block bg-green p-3 text-white"
+                onClick={() => setCorSelecionadaIndex(null)}
+              >
+                Ver ambientadas
+              </button>
+            </div>
+          )}
           {data.produto.prodItensinclusosDescricao && (
             <p className="py-4">
               <span className="text-green text-lg font-bold">
@@ -75,7 +136,7 @@ const Produto = ({ apiData }: Props) => {
             title={data.title}
             slug={data.slug}
             codigo={data.prodCodigo}
-            img={data.featuredImage.node.sourceUrl}
+            img={data.produto.imagemPrincipal.sourceUrl}
             uri={data.uri}
           />
         </div>

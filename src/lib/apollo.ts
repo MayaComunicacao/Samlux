@@ -1,10 +1,14 @@
+/* eslint-disable prettier/prettier */
 import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject
 } from '@apollo/client';
 
-const API_ENDPOINT = `${process.env.GRAPHQL_ENDPOINT}`;
+const API_ENDPOINT = `${process.env.VERCEL_ENV === 'production'
+  ? process.env.GRAPHQL_ENDPOINT
+  : process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT
+  }`;
 
 let cachedClient: any = null;
 

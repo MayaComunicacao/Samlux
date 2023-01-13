@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from '../../utils/capitalize';
 
 const BreadcrumbApp = () => {
   const router = useRouter();
-  const path = router.asPath.split('/').filter(Boolean);
+  const path = decodeURI(router.asPath).split('/').filter(Boolean);
 
   return (
     <div className="bg-bg py-3 px-4">
@@ -18,10 +18,12 @@ const BreadcrumbApp = () => {
           const CapitalizedStr = capitalizeFirstLetter(str);
 
           return index === path.length - 1 ? (
-            <span className="py-2 px-4 bg-bg text-gray">{CapitalizedStr}</span>
+            <span key={index} className="py-2 px-4 bg-bg text-gray">
+              {CapitalizedStr}
+            </span>
           ) : (
             <>
-              <Link href={`/produtos/todos`} passHref={true}>
+              <Link key={index} href={`/produtos/todos`} passHref={true}>
                 <a className="py-2 px-4 bg-bg text-gray">{CapitalizedStr}</a>
               </Link>
               <span> / </span>
