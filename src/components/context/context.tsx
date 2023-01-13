@@ -41,7 +41,7 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
       const itemIndex = array.findIndex(({ slug }) => produto.slug === slug);
 
       if (itemIndex === -1) {
-        return [produto];
+        return [...array, produto];
       }
 
       array[itemIndex].quantidade = produto.quantidade;
@@ -56,12 +56,6 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
       return array;
     });
   };
-
-  useEffect(() => {
-    if (budget.length > 0) {
-      console.log(budget);
-    }
-  }, [budget]);
 
   return (
     <ContextBudget.Provider value={{ budget, addBudget, removeBudget }}>

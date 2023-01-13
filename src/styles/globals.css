@@ -152,6 +152,7 @@ nav a:hover{
   display: block !important;
 }
 ::-webkit-scrollbar{
+  width: 5px;
   height: 4px
 }
 ::-webkit-scrollbar-track{
@@ -160,7 +161,7 @@ nav a:hover{
 }
 ::-webkit-scrollbar-thumb{
   background:#0eb9b3;
-  height: 4px
+  height: 1px;
 }
 ::-webkit-scrollbar-thumb:hover{
   background:#0eb9b3;

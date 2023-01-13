@@ -30,26 +30,32 @@ const ModalBudget = () => {
             <FaClipboardList size="24px" color={configcss.colors.green} />
           </button>
         </div>
-        <div className="py-8 px-8 text-gray border-l border-green h-full relative">
-          <h3 className="text-2xl font-bold">Produtos</h3>
-          <small>Lista dos produtos para orçamento</small>
+        <div className="flex flex-col justify-between p-6 text-gray border-l border-green h-full relative">
+          <div>
+            <h3 className="text-2xl font-bold">Produtos</h3>
+            <small>Lista dos produtos para orçamento</small>
+          </div>
 
-          {budget.length > 0 &&
-            budget.map((product, index: number) => {
-              return (
-                <ItemBudget
-                  key={`${index}`}
-                  title={product.title}
-                  uri={product.uri}
-                  slug={product.slug}
-                  codigo={product.codigo}
-                  img={product.img}
-                  quantidade={product.quantidade}
-                />
-              );
-            })}
+          <div className="block h-[80%] overflow-y-auto scroll_budget">
+            {budget.length > 0 &&
+              budget.map((product, index: number) => {
+                return (
+                  <div key={index} className="block pb-4">
+                    <ItemBudget
+                      key={`${index}`}
+                      title={product.title}
+                      uri={product.uri}
+                      slug={product.slug}
+                      codigo={product.codigo}
+                      img={product.img}
+                      quantidade={product.quantidade}
+                    />
+                  </div>
+                );
+              })}
+          </div>
 
-          <div className="absolute bottom-8 left-0 text-center w-full px-8">
+          <div className="relative text-center w-full pt-2">
             <Link href="/orcamento">
               <a className="py-3 px-4 bg-green text-white font-bold block">
                 Finalizar orçamento
