@@ -40,8 +40,6 @@ const RelatedsApp = ({ products }: Props) => {
               title={produto.title}
               cod={produto.codigo}
               img={produto.img.url}
-              originalWidth={produto.img.width}
-              originalHeight={produto.img.height}
               uri={produto.uri}
               slug={produto.slug}
             />
