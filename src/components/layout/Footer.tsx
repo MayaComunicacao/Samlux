@@ -52,7 +52,7 @@ const FooterApp = () => {
         </div>
         <p className="text-center text-sm text-gray pt-4 border-t border-t-zinc-300 mt-8">
           © Samlux {new Date().getFullYear()} | Todos os direitos reservados.
-          Desenvlvido por
+          Desenvolvido por
           <a
             href="https://mayacomunicacao.com.br"
             className="align-middle inline-block pl-1"
