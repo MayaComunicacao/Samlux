@@ -9,16 +9,17 @@ type Props = {
 const MyImageGallery = ({ gallery }: Props) => {
   const [width, setWidth] = useState(0);
 
-  const images = gallery.map((item: any) => {
-    const el = item?.mediaDetails?.sizes?.find(
-      (item: any) => Number(item.width) === 150
-    );
+  const images =
+    gallery?.map((item: any) => {
+      const el = item?.mediaDetails?.sizes?.find(
+        (item: any) => Number(item.width) === 150
+      );
 
-    return {
-      original: item.mediaItemUrl || item.sourceUrl,
-      thumbnail: el ? el.sourceUrl : item.mediaItemUrl
-    };
-  });
+      return {
+        original: item.mediaItemUrl || item.sourceUrl,
+        thumbnail: el ? el.sourceUrl : item.mediaItemUrl
+      };
+    }) || null;
 
   useEffect(() => {
     const width = document.querySelector('.container')?.getBoundingClientRect();
@@ -28,6 +29,8 @@ const MyImageGallery = ({ gallery }: Props) => {
     }
   }, []);
   const Position = width > 1200 ? 'left' : 'bottom';
+
+  if (!images) return <></>;
 
   return (
     <ImageGallery

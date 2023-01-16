@@ -21,6 +21,7 @@ const Produto = ({ apiData }: Props) => {
   return (
     <div className="container">
       <BreadcrumbApp />
+
       <div className="sm:flex pt-8 sm:pt-14 pb-14">
         <div className="w-full sm:w-1/2 pr-0 sm:pr-8">
           <ProductSlideImage
