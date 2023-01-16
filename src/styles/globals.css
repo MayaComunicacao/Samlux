@@ -215,3 +215,23 @@ nav a:hover{
     opacity: .4 !important;
   }
 }
+
+
+.container-square {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.square{
+  width: 100%;
+  height: 100%;
+}
+.overlay {
+  display: block;
+  width: 170px;
+  height: 71px;
+  -webkit-transform: rotate(225deg);
+  -moz-transform: rotate(225deg);
+  -ms-transform: roate(225deg);
+}

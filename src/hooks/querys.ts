@@ -156,7 +156,10 @@ export const ProductOBJ = {
           selecaoVolts
           prodCodigo
           fotoscores {
-            corImage
+            corImage {
+              corSelec1
+              corSelec2
+            }
             imagensCor {
               sourceUrl
               mediaDetails {

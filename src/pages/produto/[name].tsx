@@ -82,25 +82,36 @@ const Produto = ({ apiData }: Props) => {
           )}
           {data?.produto?.fotoscores?.length > 0 && (
             <div className="flex gap-4 pl-1">
-              {data.produto.fotoscores.map((item: any, index: number) => {
-                return (
-                  <button
-                    key={index}
-                    className={`block w-[30px] h-[30px] p-1 ${
-                      corSelecionadaIndex === index
-                        ? 'border border-current'
-                        : null
-                    }`}
-                    onClick={() => setCorSelecionadaIndex(index)}
-                  >
-                    <span
-                      className="block w-full h-full"
-                      style={{
-                        backgroundColor: `${item.corImage}`
-                      }}
-                    />
-                  </button>
-                );
+              {data?.produto?.fotoscores?.map((item: any, index: number) => {
+                if (item.corImage.corSelec1 || item.corImage.corSelec2) {
+                  return (
+                    <button
+                      key={index}
+                      className={`block w-[35px] h-[35px] p-1 ${
+                        corSelecionadaIndex === index
+                          ? 'border border-current'
+                          : null
+                      }`}
+                      onClick={() => setCorSelecionadaIndex(index)}
+                    >
+                      <div className="container-square">
+                        <span
+                          className="block w-full h-full square"
+                          style={{
+                            backgroundColor: `${item?.corImage?.corSelec1}`
+                          }}
+                        >
+                          <span
+                            className="overlay"
+                            style={{
+                              backgroundColor: `${item?.corImage?.corSelec2}`
+                            }}
+                          />
+                        </span>
+                      </div>
+                    </button>
+                  );
+                }
               })}
             </div>
           )}
