@@ -1,17 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import ButtonsApp from './Buttons';
 
 type Props = {
   title: string;
-  cod: string;
   img: string;
   uri: string;
-  slug: string;
 };
 
-const ProductApp = ({ title, cod, img, uri, slug }: Props) => {
+const ProductApp = ({ title, img, uri }: Props) => {
   return (
     <div>
       <input type="hidden" name="" />
@@ -30,18 +27,7 @@ const ProductApp = ({ title, cod, img, uri, slug }: Props) => {
           </a>
         </Link>
       </div>
-      <ButtonsApp
-        page={'category'}
-        title={title}
-        slug={slug}
-        codigo={cod}
-        img={img}
-        uri={uri}
-      />
-      <div className="text-center py-2">
-        {title && <p>{title}</p>}
-        {cod && <strong>Cód. {cod}</strong>}
-      </div>
+      <div className="text-center py-2">{title && <p>{title}</p>}</div>
     </div>
   );
 };

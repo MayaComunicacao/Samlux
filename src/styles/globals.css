@@ -10,6 +10,10 @@ body{
   position: relative;
 }
 
+input {
+  outline: none !important;
+}
+
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
     position: absolute;
@@ -31,8 +35,8 @@ body{
     position: absolute;
     left: 0;
     top: 0;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border: 1px solid currentColor;
     border-radius: 100%;
     background: #fff;
@@ -40,12 +44,12 @@ body{
 [type="radio"]:checked + label:after,
 [type="radio"]:not(:checked) + label:after {
     content: '';
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     background: #0eb9b3;
     position: absolute;
-    top: 6px;
-    left: 6px;
+    top: 4px;
+    left: 4px;
     border-radius: 100%;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;

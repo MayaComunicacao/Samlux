@@ -26,6 +26,7 @@ const PageOrcamento = () => {
                   codigo={product.codigo}
                   img={product.img}
                   quantidade={product.quantidade}
+                  volts={product.volts}
                 />
               );
             })}

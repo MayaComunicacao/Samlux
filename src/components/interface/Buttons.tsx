@@ -1,20 +1,32 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useBudget } from '../context/context';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 interface PageProps {
   page: string;
   title: string;
   codigo: string;
-  img: string;
+  img: string | null;
   slug: string;
   uri: string;
+  volts: string;
 }
 
-const ButtonsApp = ({ page, title, slug, codigo, img, uri }: PageProps) => {
+const ButtonsApp = ({
+  page,
+  title,
+  slug,
+  codigo,
+  img = null,
+  uri,
+  volts
+}: PageProps) => {
   const { addBudget } = useBudget();
   const [counter, setCounter] = useState(1);
+
+  const router = useRouter();
 
   const increase = () => {
     setCounter((count) => count + 1);
@@ -31,7 +43,7 @@ const ButtonsApp = ({ page, title, slug, codigo, img, uri }: PageProps) => {
   };
 
   const Notify = useCallback(
-    (qnt: number) => toast(`produto incluido: quantidade ${qnt}`),
+    (qnt: number) => toast(`produto incluído: quantidade ${qnt}`),
     []
   );
 
@@ -44,11 +56,14 @@ const ButtonsApp = ({ page, title, slug, codigo, img, uri }: PageProps) => {
       img,
       slug,
       quantidade: counter,
-      uri: uri
+      uri: uri,
+      volts: volts
     });
 
     Notify(counter);
   };
+
+  useEffect(() => setCounter(1), [router]);
 
   if (page === 'category') {
     return (

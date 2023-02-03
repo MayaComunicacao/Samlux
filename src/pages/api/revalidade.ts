@@ -11,7 +11,6 @@ export default async function handler(
   try {
     const path = req.query.path as string;
     res.revalidate(path);
-    console.log('path api', path);
     return res.json({ revalidade: true });
   } catch (err) {
     return res.status(500).send(err);

@@ -9,11 +9,13 @@ const BreadcrumbApp = () => {
 
   return (
     <div className="bg-bg py-3 px-4">
-      <p className="text-xs text-zinc-500">
+      <div className="text-xs text-zinc-500">
         <Link href="/" passHref>
           <a className="py-2 px-4 bg-bg text-gray">Home</a>
         </Link>
+
         <span>/</span>
+
         {path?.map((str: string, index: number) => {
           const CapitalizedStr = capitalizeFirstLetter(str);
 
@@ -22,15 +24,15 @@ const BreadcrumbApp = () => {
               {CapitalizedStr}
             </span>
           ) : (
-            <>
-              <Link key={index} href={`/produtos/todos`} passHref={true}>
+            <div key={index} className="float-left">
+              <Link href={`/produtos/todos`} passHref={true}>
                 <a className="py-2 px-4 bg-bg text-gray">{CapitalizedStr}</a>
               </Link>
               <span> / </span>
-            </>
+            </div>
           );
         })}
-      </p>
+      </div>
     </div>
   );
 };

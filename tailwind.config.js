@@ -12,13 +12,13 @@ module.exports = {
         gray: configCss.colors.gray,
         graylight: configCss.colors.graylight,
         bg: configCss.colors.bg
+      },
+      backgroundImage: {
+        backicon: configCss.backgroundImg.backicon
       }
     },
     container: {
       center: true
-    },
-    backgroundImage: {
-      backicon: configCss.backgroundImg.backicon
     }
   },
   plugins: []

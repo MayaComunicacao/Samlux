@@ -23,7 +23,7 @@ const HeaderApp = ({ apiData }: Props) => {
 
   return (
     <>
-      <div className="border-b border-b-zinc-200 py-5 hidden lg:block">
+      <div className="py-5 hidden lg:block">
         <div className="container">
           <div className="flex w-full items-center">
             <div className="w-[calc(50%_-_90px)]">

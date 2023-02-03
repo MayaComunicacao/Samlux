@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import React from 'react';
 import Image, { StaticImageData } from 'next/image';
+import { useEffect, useState } from 'react';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import Link from 'next/link';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Link from 'next/link';
+import ConditionWrapper from '../conditionWrapper/conditionWrapper';
 
 interface PropsSlide {
   nav?: boolean;
@@ -17,6 +19,8 @@ interface PropsSlide {
     bannerText?: string;
     bannerTxButton?: string;
     link?: string;
+    slug?: string;
+    id?: string;
   }[];
   size?: boolean;
   play?: boolean;
@@ -68,6 +72,10 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
       }}
     >
       {imgs?.map((item, index) => {
+        const anchorLink = item.slug
+          ? `/produtos/marcas/?s=${item.slug}`
+          : null;
+
         return (
           <SwiperSlide key={index}>
             <div
@@ -85,16 +93,25 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
                     }
               }
             >
-              <Image
-                layout="fill"
-                objectFit="cover"
-                src={item.url}
-                priority={true}
-                onLoadingComplete={({
-                  naturalWidth: width,
-                  naturalHeight: height
-                }) => setNaturalSizes({ width, height })}
-              ></Image>
+              <ConditionWrapper
+                condition={!!anchorLink}
+                wrapper={(children: JSX.Element) => (
+                  <Link href={anchorLink ? anchorLink : ''} passHref={true}>
+                    <a>{children}</a>
+                  </Link>
+                )}
+              >
+                <Image
+                  layout="fill"
+                  objectFit="cover"
+                  src={item.url}
+                  priority={true}
+                  onLoadingComplete={({
+                    naturalWidth: width,
+                    naturalHeight: height
+                  }) => setNaturalSizes({ width, height })}
+                ></Image>
+              </ConditionWrapper>
             </div>
 
             <div

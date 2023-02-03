@@ -47,8 +47,9 @@ const ModalBudget = () => {
                       uri={product.uri}
                       slug={product.slug}
                       codigo={product.codigo}
-                      img={product.img}
+                      img={product?.img}
                       quantidade={product.quantidade}
+                      volts={product.volts}
                     />
                   </div>
                 );

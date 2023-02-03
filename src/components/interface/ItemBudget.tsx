@@ -5,22 +5,30 @@ import { FaTrashAlt } from 'react-icons/fa';
 import configcss from '../../styles/configcss';
 import { Product, useBudget } from '../context/context';
 
-const ItemBudget = ({ title, slug, uri, img, codigo, quantidade }: Product) => {
+const ItemBudget = ({
+  title,
+  uri,
+  img = null,
+  codigo,
+  quantidade,
+  volts
+}: Product) => {
   const { removeBudget } = useBudget();
 
   const handleClickRemove = () => {
-    removeBudget(slug);
+    removeBudget(codigo);
   };
 
   return (
     <div className="flex items-center">
       <div className="w-36 aspect-[4/5] reset-image relative">
-        <Image src={img} layout="fill" objectFit="cover" />
+        {img ? <Image src={img} layout="fill" objectFit="cover" /> : null}
       </div>
       <div className="pl-2 relative py-4 px-4 w-[calc(100%-64px)]">
         <div>
           <strong className="w-full text-lg block text-green">{title}</strong>
           <span className="w-full text-xs block">Cód. {codigo}</span>
+          <span className="w-full text-xs block">Voltagem: {volts}</span>
           <span className="w-full text-xs block">Quantidade: {quantidade}</span>
         </div>
         <div className="pt-3 flex items-center">

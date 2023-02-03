@@ -1,94 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import SlideApp from './Slides';
-import TitleApp from './Title';
+import Link from 'next/link';
+import React from 'react';
 import {
-  IconTable,
-  IconWall,
   IconFloor,
-  IconRoof,
   IconGarden,
-  IconOutside
+  IconOutside,
+  IconRoof,
+  IconTable,
+  IconWall
 } from './IconEnvironments';
+import TitleApp from './Title';
 
 interface ButtonProps {
   children: React.ReactNode;
-  active: boolean;
   slug: string;
+  href: string;
 }
 
-interface EnviromentProps {
-  data: {
-    img: string;
-    categories: {
-      name: string;
-      slug: string;
-    }[];
-  }[];
-}
-
-const EnvironmentApp = ({ data }: EnviromentProps) => {
-  const [active, setActive] = useState('Mesa');
-
-  const handleClick = (slug: string) => setActive(slug);
-
-  const [width, setWidth] = useState(0);
-
-  const imgs = data?.map((item: any) => {
-    return {
-      url: item.img
-    };
-  });
-
-  useEffect(() => {
-    const whidth = document.body.clientWidth;
-
-    if (whidth) {
-      setWidth(whidth);
-    }
-  }, []);
-
+const EnvironmentApp = () => {
   const color = '#706f6f';
-  const size = width > 1024 ? '70px' : '50px';
+  const size = '70px';
 
   const IconsImg = [
     {
       comp: <IconTable cor={color} size={size} />,
-      text: 'Mesa'
+      text: 'Mesa',
+      href: './produtos/mesa'
     },
     {
-      comp: <IconWall cor={color} size={size} />,
-      text: 'Parede'
+      comp: <IconWall cor={color} size={'85px'} />,
+      text: 'Parede',
+      href: './produtos/parede'
     },
     {
       comp: <IconFloor cor={color} size={size} />,
-      text: 'Piso'
+      text: 'Piso',
+      href: './produtos/piso'
     },
     {
       comp: <IconRoof cor={color} size={size} />,
-      text: 'Teto'
+      text: 'Teto',
+      href: './produtos/teto'
     },
     {
-      comp: <IconGarden cor={color} size={size} />,
-      text: 'Jardim'
+      comp: <IconGarden cor={color} size={'65px'} />,
+      text: 'Jardim',
+      href: './produtos/jardim'
     },
     {
-      comp: <IconOutside cor={color} size={size} />,
-      text: 'Externo'
+      comp: <IconOutside cor={color} size={'80px'} />,
+      text: 'Externo',
+      href: './produtos/externo'
     }
   ];
 
-  const IconButton = ({ children, active, slug }: ButtonProps) => {
+  const IconButton = ({ children, href }: ButtonProps) => {
     return (
-      <button
-        onClick={() => handleClick(slug)}
-        className={
-          active
-            ? 'px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12 border border-gray rounded-md'
-            : 'px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12'
-        }
-      >
-        {children}
-      </button>
+      <Link href={href} passHref={true}>
+        <a className="flex flex-col items-center justify-center px-2 sm:px-4 py-2 mx-2 sm:mx-4 lg:mx-12">
+          {children}
+        </a>
+      </Link>
     );
   };
 
@@ -101,24 +72,14 @@ const EnvironmentApp = ({ data }: EnviromentProps) => {
             return (
               <IconButton
                 key={`${index}`}
-                active={active === element.text}
                 slug={element.text}
+                href={element.href}
               >
                 {element.comp}
                 <span className="block mt-2 text-gray">{element.text}</span>
               </IconButton>
             );
           })}
-        </div>
-        <div className="mt-8 sm:mt-0 h-[250px] xl:h-[500px]">
-          <SlideApp
-            dot={true}
-            nav={false}
-            qnt={[2, 3, 4]}
-            imgs={imgs}
-            size={true}
-            play={false}
-          />
         </div>
       </div>
     </div>

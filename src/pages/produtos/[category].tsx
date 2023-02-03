@@ -3,7 +3,7 @@ import React from 'react';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import FilterApp from '../../components/interface/Filter';
 import ProductApp from '../../components/interface/Product';
-import { CategoriesOBJ, ProductsOBJ } from '../../hooks/querys';
+import { AllProductsOBJ, CategoriesOBJ } from '../../hooks/querys';
 
 type Props = {
   apiData: any;
@@ -25,10 +25,8 @@ const Products = ({ apiData }: Props) => {
                 <ProductApp
                   key={`${index}`}
                   title={produto.title}
-                  cod={produto.codigo}
                   img={produto.img.url}
                   uri={produto.uri}
-                  slug={produto.slug}
                 />
               );
             })}
@@ -60,7 +58,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
-  const products = await (await ProductsOBJ.queryExecute()).products;
+  const products = await (await AllProductsOBJ.queryExecute()).products;
 
   return {
     props: {

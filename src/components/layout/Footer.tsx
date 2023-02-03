@@ -29,7 +29,7 @@ const FooterApp = () => {
             </ul>
             <ul className="text-gray min-w-full sm:min-w-[300px]">
               <li>
-                <Link href="/download">
+                <Link href="/downloads">
                   <a>Download</a>
                 </Link>
               </li>

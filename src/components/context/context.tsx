@@ -1,12 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export interface Product {
   title: string;
   codigo: string;
-  img: string;
+  img: string | null;
   slug: string;
   quantidade: number;
   uri: string;
+  volts: string;
 }
 
 const defaultValues = {
@@ -14,15 +15,15 @@ const defaultValues = {
   addBudget: (produto: Product) => {
     produto;
   },
-  removeBudget: (slug: string) => {
-    slug;
+  removeBudget: (codigo: string) => {
+    codigo;
   }
 };
 
 interface ContextProps {
   budget: Product[];
   addBudget: (produto: Product) => void;
-  removeBudget: (slug: string) => void;
+  removeBudget: (codigo: string) => void;
 }
 
 interface ModalProviderProps {
@@ -38,7 +39,9 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
   const addBudget = (produto: Product) => {
     setBudget((prev) => {
       const array = [...prev];
-      const itemIndex = array.findIndex(({ slug }) => produto.slug === slug);
+      const itemIndex = array.findIndex(
+        ({ codigo }) => produto.codigo === codigo
+      );
 
       if (itemIndex === -1) {
         return [...array, produto];
@@ -50,9 +53,9 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
     });
   };
 
-  const removeBudget = (slug: string) => {
+  const removeBudget = (codigo: string) => {
     setBudget((prev) => {
-      const array = prev.filter((item) => item.slug !== slug);
+      const array = prev.filter((item) => item.codigo !== codigo);
       return array;
     });
   };

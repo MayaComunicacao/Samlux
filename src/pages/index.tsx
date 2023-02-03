@@ -39,20 +39,18 @@ const Home = ({ apiData }: Props) => {
         </div>
       </div>
 
-      <EnvironmentApp data={apiData.environments} />
+      <EnvironmentApp />
 
       <div className="container py-14">
-        <TitleApp text={'Lançamentos'} />
+        <TitleApp text={'Destaque'} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8 my-8">
           {apiData.products.map((produto: any, index: number) => {
             return (
               <ProductApp
                 key={`${index}`}
                 title={produto.title}
-                cod={produto.codigo}
                 img={produto.img.url}
                 uri={produto.uri}
-                slug={produto.slug}
               />
             );
           })}

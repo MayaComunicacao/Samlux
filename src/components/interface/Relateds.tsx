@@ -38,10 +38,8 @@ const RelatedsApp = ({ products }: Props) => {
           <SwiperSlide key={`${index}`}>
             <ProductApp
               title={produto.title}
-              cod={produto.codigo}
               img={produto.img.url}
               uri={produto.uri}
-              slug={produto.slug}
             />
           </SwiperSlide>
         );
