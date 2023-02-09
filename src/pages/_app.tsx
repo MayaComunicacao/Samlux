@@ -8,15 +8,15 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
-type ApiDataProps = {
-  pageProps: { apiData: any };
-};
+export interface IApiData {
+  apiData: any;
+}
 
-function MyApp({ Component, pageProps }: AppProps & ApiDataProps) {
+function MyApp({ Component, pageProps }: AppProps<IApiData>) {
   return (
     <MenuProvider>
       <BudgetProvider>
-        <Layout apiData={pageProps.apiData}>
+        <Layout api={pageProps.apiData}>
           <ToastContainer
             position="bottom-right"
             autoClose={3000}
@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps & ApiDataProps) {
             pauseOnHover
             theme="light"
           />
+
           <Component {...pageProps} />
         </Layout>
       </BudgetProvider>

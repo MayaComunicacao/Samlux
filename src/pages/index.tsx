@@ -14,7 +14,7 @@ type Props = {
 const Home = ({ apiData }: Props) => {
   return (
     <>
-      <div className="banner-home">
+      <div className="banner-home relative w-full aspect-video lg:aspect-auto lg:h-[1080px] overflow-hidden">
         <SlideApp
           dot={true}
           nav={false}

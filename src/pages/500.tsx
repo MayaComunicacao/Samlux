@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-import { CategoriesOBJ } from '../hooks/querys';
+import { CategoriesOBJ, WhatsAppOBJ } from '../hooks/querys';
 import Link from 'next/link';
 
 export default function Custom500() {
@@ -22,12 +22,16 @@ export default function Custom500() {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+    await CategoriesOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     props: {
       apiData: {
-        navigation
+        navigation,
+        numwhatsapp
       }
     },
     revalidate: 30

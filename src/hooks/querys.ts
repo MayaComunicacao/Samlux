@@ -528,19 +528,216 @@ export const CategoriesOBJ = {
   }
 };
 
+export const AboutPageOBJ = {
+  postType: 'page',
+  query: function () {
+    return gql`
+    query GetNavigation {
+      ${this.postType}(id: "a-samlux", idType: URI) {
+        title
+        content
+      }
+    }
+  `;
+  },
+  queryExecute: async function () {
+    const resultPage = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      resultPage: resultPage?.page || {}
+    };
+  }
+};
+
+export const WhatsAppOBJ = {
+  postType: 'whatsapp',
+  acf: 'num_whatsapp',
+  query: function () {
+    return gql`
+      query GetNumWhatsApp {
+        whatsapp(id: "sjrp", idType: SLUG) {
+          num_whatsapp {
+            numeroWhatsapp
+            mensagemWhatsapp
+          }
+        }
+      }
+    `;
+  },
+  queryExecute: async function () {
+    const numwhatsapp = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      numwhatsapp: numwhatsapp?.[this.postType]?.[this.acf] || {}
+    };
+  }
+};
+
 export const ExecuteAllQuerys = async () => {
-  const [{ marcasExclusivas }, { banners }, { navigation }, { products }] =
-    await Promise.all([
-      await BrandsOBJ.queryExecute(),
-      await BannersOBJ.queryExecute(),
-      await CategoriesOBJ.queryExecute(),
-      await ProductsOBJ.queryExecute()
-    ]);
+  const [
+    { marcasExclusivas },
+    { banners },
+    { navigation },
+    { products },
+    { numwhatsapp }
+  ] = await Promise.all([
+    await BrandsOBJ.queryExecute(),
+    await BannersOBJ.queryExecute(),
+    await CategoriesOBJ.queryExecute(),
+    await ProductsOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     marcasExclusivas,
     banners,
     navigation,
-    products
+    products,
+    numwhatsapp
   };
+};
+/** CLIENT SIDE */
+const API_ENDPOINT = 'https://painel.samlux.com.br/graphql/';
+
+export const getProductsByCategory = (category: string) => {
+  return fetch(API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query getProductsByCategory($id: ID = "", $terms: [String] = "") {
+          category(id: $id, idType: NAME) {
+            slug
+          }
+          contentNodes(
+            where: {taxQuery: {taxArray: {field: SLUG, operator: IN, taxonomy: CATEGORY, terms: $terms}}}
+          ) {
+            nodes {
+              ... on Produto {
+                title
+                uri
+                produto {
+                  imagemPrincipal {
+                    sourceUrl
+                    mediaDetails {
+                      width
+                      height
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    `,
+      variables: {
+        id: category,
+        terms: category
+      }
+    })
+  });
+};
+
+export const getAllProducts = () => {
+  return fetch(API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query getAllProducts {
+          contentNodes(first: 30) {
+            nodes {
+              ... on Produto {
+                title
+                uri
+                produto {
+                  imagemPrincipal {
+                    sourceUrl
+                    mediaDetails {
+                      width
+                      height
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    `
+    })
+  });
+};
+
+export const getProductsByFilter = (
+  array_of_string_categorys: string[],
+  string_with_fabricantes_post_id: string
+) => {
+  return fetch(API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query GetProductsByFilter($value: String! = "", $terms: [String]!) {
+          produtos(
+            where: {taxQuery: {relation: OR, taxArray: {field: SLUG, operator: IN, taxonomy: CATEGORY, terms: $terms}}, metaQuery: {metaArray: {key: "fabricante_prod", compare: IN, value: $value, type: NUMERIC}, relation: OR}}
+          ) {
+            nodes {
+              title
+              slug
+              produto {
+                imagemPrincipal {
+                  sourceUrl
+                  mediaDetails {
+                    width
+                    height
+                  }
+                }
+              }
+            }
+          }
+        }
+    `,
+      variables: {
+        terms: array_of_string_categorys,
+        value: string_with_fabricantes_post_id
+      }
+    })
+  });
+};
+
+export const getFieldsOfFilter = () => {
+  return fetch(API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+      query GetFieldsOfFilter {
+        categories(where: {hideEmpty: true}) {
+          nodes {
+            slug
+            name
+          }
+        }
+        marcasExclusivas {
+          nodes {
+            title
+            marcaExclusivaId
+          }
+        }
+      }
+    `
+    })
+  });
 };

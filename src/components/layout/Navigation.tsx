@@ -3,14 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import configcss from '../../styles/configcss';
 
-interface Props {
-  apiData: any;
-}
-
-const Navigation = ({ apiData }: Props) => {
+const Navigation = ({ apidata }: { apidata: any }) => {
   const Router = useRouter();
 
-  const submenu = apiData.navigation;
+  const submenu = apidata.navigation;
 
   const Categories = [
     {

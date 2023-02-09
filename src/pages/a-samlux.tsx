@@ -9,7 +9,7 @@ import Video from '../assets/img/video.jpg';
 import image_1 from '../assets/img/empresa-1.jpg';
 import image_2 from '../assets/img/empresa-2.jpg';
 import image_3 from '../assets/img/empresa-3.jpg';
-import { CategoriesOBJ } from '../hooks/querys';
+import { AboutPageOBJ, CategoriesOBJ, WhatsAppOBJ } from '../hooks/querys';
 
 const imagens = [
   {
@@ -23,42 +23,35 @@ const imagens = [
   }
 ];
 
-const AboutApp = () => {
+const AboutApp = ({ apiData }: { apiData: any }) => {
   const [paddingLeft, setPaddingLeft] = useState(0);
 
   useEffect(() => {
     const width = document.querySelector('.container')?.getBoundingClientRect();
 
     if (width) {
-      setPaddingLeft(width.left + 15);
+      setPaddingLeft(width.left);
     }
   }, []);
 
   return (
     <>
-      <div className="bg-bg relative min-h-[480px]">
+      <div className="bg-bg relative min-h-[480px] border-b border-slate-300">
         <div className="lg:flex lg:items-center">
           <div
-            className="lg:pl-4 w-full lg:w-1/2 py-20 lg:pr-12 text-gray"
+            className="w-full lg:w-1/2 py-20 lg:pr-14 text-gray"
             style={{ paddingLeft: paddingLeft }}
           >
-            <TitleApp text={'A Samlux'} />
-            <p className="leading-10">
-              Surgiu com o propósito de inovar e proporcionar ao mercado a
-              melhor experiência quando se diz respeito a decoração e
-              iluminação.
-            </p>
-            <p className="my-6 leading-10">
-              Encontre em nossa loja uma variedade de itens para a decoração do
-              seu espaço, como: arandelas, plafons, spots, abajures, lâmpadas,
-              ventiladores, lustres e pendentes.
-            </p>
-            <p className="leading-10">
-              Com uma equipe constituída por profissionais qualificados e em
-              constante evolução, nossa proposta é trazer ao segmento peças de
-              qualidade premium com um design único, por um excelente custo
-              benefício.
-            </p>
+            <div className="pb-4">
+              <TitleApp
+                text={apiData?.resultPage?.title ?? ''}
+                textCenter={false}
+              />
+            </div>
+
+            <div
+              dangerouslySetInnerHTML={{ __html: apiData?.resultPage?.content }}
+            />
           </div>
           <div className="w-full lg:w-1/2">
             <SlideApp
@@ -71,9 +64,10 @@ const AboutApp = () => {
           </div>
         </div>
       </div>
-      <div className="container sm:max-w-screen-lg py-16">
+
+      {/* <div className="container sm:max-w-screen-lg py-16">
         <Image layout="responsive" src={Video} alt="Vídeo Samlux" />
-      </div>
+      </div> */}
     </>
   );
 };
@@ -81,12 +75,18 @@ const AboutApp = () => {
 export default AboutApp;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const [{ navigation }, { resultPage }, { numwhatsapp }] = await Promise.all([
+    await CategoriesOBJ.queryExecute(),
+    await AboutPageOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     props: {
       apiData: {
-        navigation
+        navigation,
+        resultPage,
+        numwhatsapp
       }
     },
     revalidate: 30

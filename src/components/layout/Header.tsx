@@ -9,12 +9,9 @@ import configcss from '../../styles/configcss';
 import { IoMdClose } from 'react-icons/io';
 import { useMenu } from '../context/contextMenu';
 import Link from 'next/link';
+import { IApiData } from '../../pages/_app';
 
-interface Props {
-  apiData: any;
-}
-
-const HeaderApp = ({ apiData }: Props) => {
+const HeaderApp = ({ apidata }: { apidata: IApiData }) => {
   const { state: isActive, setStatusMenu } = useMenu();
 
   const menuRef = useRef(null);
@@ -27,7 +24,7 @@ const HeaderApp = ({ apiData }: Props) => {
         <div className="container">
           <div className="flex w-full items-center">
             <div className="w-[calc(50%_-_90px)]">
-              <Navigation apiData={apiData} />
+              <Navigation apidata={apidata} />
             </div>
             <div className="w-[160px]">
               <Link href="/" passHref>
@@ -66,7 +63,7 @@ const HeaderApp = ({ apiData }: Props) => {
           >
             <IoMdClose size="24px" color={configcss.colors.gray} />
           </button>
-          <Navigation apiData={apiData} />
+          <Navigation apidata={apidata} />
           <div
             className={
               'block w-full] mt-8 lg:flex lg:items-center lg:justify-end lg:w-[calc(50%_-_90px)]'

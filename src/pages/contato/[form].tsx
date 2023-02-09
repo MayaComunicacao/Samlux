@@ -10,7 +10,7 @@ import MapApp from '../../components/interface/Map';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
 import { GetStaticPaths } from 'next';
-import { CategoriesOBJ } from '../../hooks/querys';
+import { CategoriesOBJ, WhatsAppOBJ } from '../../hooks/querys';
 
 // Imagens
 import workimg from '../../assets/img/trabalhe-conosco.jpg';
@@ -132,12 +132,16 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+    await CategoriesOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     props: {
       apiData: {
-        navigation
+        navigation,
+        numwhatsapp
       }
     },
     revalidate: 30

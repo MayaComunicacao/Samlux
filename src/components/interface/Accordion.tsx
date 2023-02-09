@@ -29,10 +29,7 @@ const AccordionApp = ({ title, content }: AccordionProps) => {
           )}
         </span>
       </button>
-      <div
-        className=""
-        style={{ display: isShowing ? 'block' : 'none', padding: '5px' }}
-      >
+      <div style={{ display: isShowing ? 'block' : 'none', padding: '5px' }}>
         {content.map((item, index) => {
           return (
             <label

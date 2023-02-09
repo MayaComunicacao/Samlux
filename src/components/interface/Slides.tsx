@@ -121,7 +121,7 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
                   : 'hidden'
               }
             >
-              <div className="content-tx text-white container py-30 sm:py-4 text-center sm:text-left">
+              <div className="content-tx text-white container py-30 sm:py-4">
                 {item.bannerText && (
                   <p className="text-3xl w-full font-bold sm:text-5xl xl:text-7xl sm:w-[60%] xl:w-[33%]">
                     {item.bannerText}

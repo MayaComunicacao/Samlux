@@ -2,11 +2,18 @@ import React from 'react';
 
 interface textProps {
   text: string;
+  textCenter?: boolean;
 }
 
-const TitleApp = ({ text }: textProps) => {
+const TitleApp = ({ text, textCenter = true }: textProps) => {
   return (
-    <h1 className="text-2xl sm:text-3xl text-center text-green">{text}</h1>
+    <h1
+      className={`text-2xl sm:text-3xl text-green ${
+        textCenter && 'text-center'
+      }`}
+    >
+      {text}
+    </h1>
   );
 };
 

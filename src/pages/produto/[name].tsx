@@ -5,7 +5,12 @@ import ProductSlideImage from '../../components/interface/ProductSlideImage';
 import ButtonsApp from '../../components/interface/Buttons';
 import TitleApp from '../../components/interface/Title';
 import RelatedsApp from '../../components/interface/Relateds';
-import { CategoriesOBJ, ProductOBJ, ProductsOBJ } from '../../hooks/querys';
+import {
+  CategoriesOBJ,
+  ProductOBJ,
+  ProductsOBJ,
+  WhatsAppOBJ
+} from '../../hooks/querys';
 import Image from 'next/image';
 
 type Props = {
@@ -254,11 +259,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params && params.name) {
     const { name } = params;
 
-    const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
-    const products = await (await ProductsOBJ.queryExecute()).products;
-    const product = await (
-      await ProductOBJ.queryExecute(name as string)
-    ).result;
+    const [{ navigation }, { products }, { result: product }, { numwhatsapp }] =
+      await Promise.all([
+        await CategoriesOBJ.queryExecute(),
+        await ProductsOBJ.queryExecute(),
+        await ProductOBJ.queryExecute(name as string),
+        await WhatsAppOBJ.queryExecute()
+      ]);
 
     if (!product) {
       return {
@@ -271,7 +278,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         apiData: {
           navigation,
           products,
-          product
+          product,
+          numwhatsapp
         }
       },
       revalidate: 30

@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import ProductApp from '../../components/interface/Product';
-import { CategoriesOBJ } from '../../hooks/querys';
+import { CategoriesOBJ, WhatsAppOBJ } from '../../hooks/querys';
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
@@ -71,12 +71,16 @@ const Products = () => {
 export default Products;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+    await CategoriesOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     props: {
       apiData: {
-        navigation
+        navigation,
+        numwhatsapp
       }
     },
     revalidate: 30

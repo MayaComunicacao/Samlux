@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ArquiveDownload from '../components/interface/ArquiveDownload';
 import Arquives from '../assets/images/arquives.json';
 import ConfigCss from '../styles/configcss';
-import { CategoriesOBJ } from '../hooks/querys';
+import { CategoriesOBJ, WhatsAppOBJ } from '../hooks/querys';
 
 interface DownloadProps {
   name: string;
@@ -67,12 +67,16 @@ const Download = () => {
 export default Download;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
+  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+    await CategoriesOBJ.queryExecute(),
+    await WhatsAppOBJ.queryExecute()
+  ]);
 
   return {
     props: {
       apiData: {
-        navigation
+        navigation,
+        numwhatsapp
       }
     },
     revalidate: 30
