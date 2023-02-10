@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { getFieldsOfFilter } from '../../hooks/querys';
+import { ISelectedFilters, useContextFilter } from '../context/contextFilter';
 
 const FilterApp = () => {
-  const [selectedFilters, setSelectedFilters] = useState<
-    ISelectedFilters[] | []
-  >([]);
+  const { selectedFilters, setSelectedFilters } = useContextFilter();
+
   const [fields, setFields] = useState<IFieldsFilter[] | []>([]);
 
   const handleClickOnItemFilter = useCallback(
@@ -32,7 +32,7 @@ const FilterApp = () => {
         });
       }
     },
-    [selectedFilters]
+    [selectedFilters, setSelectedFilters]
   );
 
   const Checkbox = useCallback(({ checked }: { checked: boolean }) => {
@@ -178,13 +178,7 @@ const FilterApp = () => {
   );
 };
 
-export default FilterApp;
-
-interface ISelectedFilters {
-  type: string;
-  category: string;
-  value: string;
-}
+export default memo(FilterApp);
 
 type IFieldsFilter = {
   filter: {

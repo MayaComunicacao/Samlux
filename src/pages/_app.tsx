@@ -7,6 +7,7 @@ import MenuProvider from '../components/context/contextMenu';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
+import ContextFilterProvider from '../components/context/contextFilter';
 
 export interface IApiData {
   apiData: any;
@@ -16,21 +17,23 @@ function MyApp({ Component, pageProps }: AppProps<IApiData>) {
   return (
     <MenuProvider>
       <BudgetProvider>
-        <Layout api={pageProps.apiData}>
-          <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+        <ContextFilterProvider>
+          <Layout api={pageProps.apiData}>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={3000}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
 
-          <Component {...pageProps} />
-        </Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ContextFilterProvider>
       </BudgetProvider>
     </MenuProvider>
   );

@@ -676,10 +676,7 @@ export const getAllProducts = () => {
   });
 };
 
-export const getProductsByFilter = (
-  array_of_string_categorys: string[],
-  string_with_fabricantes_post_id: string
-) => {
+export const getProductsByFilter = (whereQuery: any) => {
   return fetch(API_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -687,10 +684,8 @@ export const getProductsByFilter = (
     },
     body: JSON.stringify({
       query: `
-        query GetProductsByFilter($value: String! = "", $terms: [String]!) {
-          produtos(
-            where: {taxQuery: {relation: OR, taxArray: {field: SLUG, operator: IN, taxonomy: CATEGORY, terms: $terms}}, metaQuery: {metaArray: {key: "fabricante_prod", compare: IN, value: $value, type: NUMERIC}, relation: OR}}
-          ) {
+        query GetProductsByFilter($where: RootQueryToProdutoConnectionWhereArgs = {}) {
+          produtos(where: $where, first: 25) {
             nodes {
               title
               slug
@@ -708,8 +703,7 @@ export const getProductsByFilter = (
         }
     `,
       variables: {
-        terms: array_of_string_categorys,
-        value: string_with_fabricantes_post_id
+        where: whereQuery
       }
     })
   });

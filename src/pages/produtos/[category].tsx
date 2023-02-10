@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useContextFilter } from '../../components/context/contextFilter';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import FilterApp from '../../components/interface/Filter';
 import ProductApp from '../../components/interface/Product';
@@ -9,17 +10,16 @@ import {
   CategoriesOBJ,
   WhatsAppOBJ,
   getProductsByCategory,
-  getAllProducts
+  getAllProducts,
+  getProductsByFilter
 } from '../../hooks/querys';
 import { capitalizeFirstLetter } from '../../utils/capitalize';
 
-type Props = {
-  apiData: any;
-};
-
-const Products = ({ apiData }: Props) => {
+const Products = () => {
   const [products, setProducts] = useState<Maybe<Produto>[] | []>([]);
   const [loading, setLoading] = useState(false);
+
+  const { selectedFilters } = useContextFilter();
 
   const router = useRouter();
 
@@ -29,22 +29,84 @@ const Products = ({ apiData }: Props) => {
     const getProducts = async () => {
       setLoading(true);
 
+      let array_of_string_categorys = [''];
+      let string_with_fabricantes_post_id = '';
+
+      if (selectedFilters.length > 0) {
+        array_of_string_categorys = selectedFilters
+          ?.map((item) => {
+            if (item.type !== 'categories') return;
+
+            return item.value;
+          })
+          .filter(Boolean) as string[];
+
+        string_with_fabricantes_post_id = selectedFilters
+          ?.map((item) => {
+            if (item.type !== 'manufacture') return;
+
+            return item.value;
+          })
+          .filter(Boolean)
+          .join(', ') as string;
+      }
+
+      const whereQuery: TWhereQuery = {
+        where: {
+          taxQuery: {
+            relation: 'OR',
+            taxArray: [
+              {
+                field: 'SLUG',
+                operator: 'IN',
+                taxonomy: 'CATEGORY',
+                terms: array_of_string_categorys || null
+              }
+            ]
+          },
+          metaQuery: {
+            relation: 'OR',
+            metaArray: [
+              {
+                compare: 'IN',
+                key: 'fabricante_prod',
+                value: string_with_fabricantes_post_id || null
+              }
+            ]
+          }
+        }
+      };
+
+      if (array_of_string_categorys.length === 0) {
+        delete whereQuery.where.taxQuery;
+      }
+
+      if (!string_with_fabricantes_post_id) {
+        delete whereQuery.where.metaQuery;
+      }
+
       const result =
         query !== 'todos'
           ? await getProductsByCategory(query as string)
+          : selectedFilters.length > 0
+          ? await getProductsByFilter(whereQuery.where)
           : await getAllProducts();
 
       const json = await result.json();
 
       if (json) {
-        setProducts(json.data.contentNodes.nodes);
+        setProducts(
+          json?.data?.contentNodes?.nodes
+            ? json.data.contentNodes.nodes
+            : json.data.produtos.nodes
+        );
       }
 
       setLoading(false);
     };
 
     getProducts();
-  }, [router, query]);
+  }, [router, query, selectedFilters]);
 
   return (
     <div className="container">
@@ -69,7 +131,7 @@ const Products = ({ apiData }: Props) => {
 
           {loading ? (
             <span className="text-sm text-gray">Buscando...</span>
-          ) : (
+          ) : products.length > 0 ? (
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-3 gap-4 lg:gap-6">
                 {products.map((product, index: number) => {
@@ -90,6 +152,8 @@ const Products = ({ apiData }: Props) => {
                 </button>
               </div>
             </div>
+          ) : (
+            <span className="text-sm text-gray">Não houve resultado.</span>
           )}
         </div>
       </div>
@@ -98,6 +162,32 @@ const Products = ({ apiData }: Props) => {
 };
 
 export default Products;
+
+type TWhereQuery = {
+  where: {
+    taxQuery?: {
+      relation: 'OR';
+      taxArray: [
+        {
+          field: 'SLUG';
+          operator: 'IN';
+          taxonomy: 'CATEGORY';
+          terms: string[] | null;
+        }
+      ];
+    };
+    metaQuery?: {
+      relation: 'OR';
+      metaArray: [
+        {
+          compare: 'IN';
+          key: 'fabricante_prod';
+          value: string | null;
+        }
+      ];
+    };
+  };
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const navigation = await (await CategoriesOBJ.queryExecute()).navigation;
