@@ -10,23 +10,26 @@ import MapApp from '../../components/interface/Map';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
 import { GetStaticPaths } from 'next';
-import { CategoriesOBJ, WhatsAppOBJ } from '../../hooks/querys';
-
-// Imagens
+import {
+  CategoriesOBJ,
+  CustomProjectsPageOBJ,
+  WhatsAppOBJ
+} from '../../hooks/querys';
 import workimg from '../../assets/img/trabalhe-conosco.jpg';
-import image_1 from '../../assets/img/01.jpg';
-import image_2 from '../../assets/img/02.jpg';
+import { Page_Galeriaprojetopersonalizado } from '../../generated/graphql';
 
-const imagens = [
-  {
-    url: image_1
-  },
-  {
-    url: image_2
-  }
-];
+const PageContactsApp = ({ apiData }: { apiData: any }) => {
+  const contentCustomProjectPage = apiData?.contentCustomProjectPage;
 
-const PageContactsApp = () => {
+  const api_galeria: Page_Galeriaprojetopersonalizado =
+    apiData?.contentCustomProjectPage?.galeriaProjetoPersonalizado;
+
+  const galeria = api_galeria?.galeriaProjetosPersonalizados?.map((item) => {
+    return {
+      url: item?.sourceUrl || ''
+    };
+  });
+
   const Router = useRouter();
 
   const [paddingLeft, setPaddingLeft] = useState(0);
@@ -89,24 +92,25 @@ const PageContactsApp = () => {
                 className="w-full lg:w-1/2 py-14 lg:pr-12 text-gray"
                 style={{ paddingLeft: paddingLeft }}
               >
-                <h1 className="text-3xl text-green">Projeto personalizado</h1>
-                <p className="leading-6 py-3">
-                  Nós tiramos seus sonhos do papel. Se você está em busca de um
-                  projeto de iluminação único e adaptado para cada espaço da sua
-                  casa ou empresa, nosso time pode ajudar você a realizar seus
-                  planos. Com nossa equipe técnica e mix premium de produtos em
-                  iluminação, oferecemos a melhor solução para desenvolver sua
-                  ideia.
-                </p>
+                <h1 className="text-3xl text-green">
+                  {contentCustomProjectPage?.title || 'Projeto personalizado'}
+                </h1>
+
+                <p
+                  className="leading-6 py-3"
+                  dangerouslySetInnerHTML={{
+                    __html: contentCustomProjectPage?.content
+                  }}
+                />
                 <b>Preencha o formulário e personalize seu projeto. </b>
                 <FormsCustom />
               </div>
-              <div className="w-full lg:w-1/2">
+              <div className="w-full lg:w-1/2 max-h-[768px] overflow-hidden">
                 <SlideApp
                   dot={true}
                   nav={false}
                   qnt={[1, 1, 1]}
-                  imgs={imagens}
+                  imgs={galeria}
                   play={true}
                 />
               </div>
@@ -132,16 +136,22 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+  const [
+    { navigation },
+    { numwhatsapp },
+    { resultPage: contentCustomProjectPage }
+  ] = await Promise.all([
     await CategoriesOBJ.queryExecute(),
-    await WhatsAppOBJ.queryExecute()
+    await WhatsAppOBJ.queryExecute(),
+    await CustomProjectsPageOBJ.queryExecute()
   ]);
 
   return {
     props: {
       apiData: {
         navigation,
-        numwhatsapp
+        numwhatsapp,
+        contentCustomProjectPage
       }
     },
     revalidate: 30

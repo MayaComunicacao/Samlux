@@ -2,28 +2,20 @@ import { GetStaticProps } from 'next';
 import React, { useEffect, useState } from 'react';
 import SlideApp from '../components/interface/Slides';
 import TitleApp from '../components/interface/Title';
-import Image from 'next/image';
-import Video from '../assets/img/video.jpg';
-
-// Imagens
-import image_1 from '../assets/img/empresa-1.jpg';
-import image_2 from '../assets/img/empresa-2.jpg';
-import image_3 from '../assets/img/empresa-3.jpg';
 import { AboutPageOBJ, CategoriesOBJ, WhatsAppOBJ } from '../hooks/querys';
-
-const imagens = [
-  {
-    url: image_1
-  },
-  {
-    url: image_2
-  },
-  {
-    url: image_3
-  }
-];
+import { Page_Pagsobre } from '../generated/graphql';
 
 const AboutApp = ({ apiData }: { apiData: any }) => {
+  const api_galeria: Page_Pagsobre = apiData?.resultPage?.pagSobre || [];
+
+  const galeria = api_galeria?.sobreGaleria
+    ?.map((item) => {
+      return {
+        url: item?.sourceUrl || ''
+      };
+    })
+    .filter(Boolean);
+
   const [paddingLeft, setPaddingLeft] = useState(0);
 
   useEffect(() => {
@@ -58,7 +50,7 @@ const AboutApp = ({ apiData }: { apiData: any }) => {
               dot={true}
               nav={false}
               qnt={[1, 1, 1]}
-              imgs={imagens}
+              imgs={galeria}
               play={true}
             />
           </div>

@@ -6,7 +6,14 @@ import configcss from '../../styles/configcss';
 const Navigation = ({ apidata }: { apidata: any }) => {
   const Router = useRouter();
 
-  const submenu = apidata.navigation;
+  const submenu = apidata.navigation?.map(
+    (item: { name: string; slug: string }) => {
+      return {
+        name: item.name,
+        path: `./produtos/${item.slug}`
+      };
+    }
+  );
 
   const Categories = [
     {
@@ -31,8 +38,17 @@ const Navigation = ({ apidata }: { apidata: any }) => {
     },
     {
       label: 'Contato',
-      path: '/contato/fale-conosco',
-      submenu: []
+      path: './#',
+      submenu: [
+        {
+          name: 'fale-conosco',
+          path: '/contato/fale-conosco'
+        },
+        {
+          name: 'Onde estamos',
+          path: '/nossas-lojas'
+        }
+      ]
     }
   ];
 
@@ -51,13 +67,13 @@ const Navigation = ({ apidata }: { apidata: any }) => {
               </Link>
               <div
                 className={
-                  'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-0 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
+                  'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-1/2 -translate-x-1/2 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
                 }
               >
                 {submenu.map((item: any, index: number) => {
                   return (
-                    <Link key={index} href={`/produtos/${item.slug}`}>
-                      <a>{item.name}</a>
+                    <Link key={index} href={`${item.path}`}>
+                      <a className="whitespace-nowrap">{item.name}</a>
                     </Link>
                   );
                 })}

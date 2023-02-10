@@ -14,14 +14,16 @@ interface PropsSlide {
   nav?: boolean;
   dot?: boolean;
   qnt: [number, number, number];
-  imgs: {
-    url: StaticImageData | string;
-    bannerText?: string;
-    bannerTxButton?: string;
-    link?: string;
-    slug?: string;
-    id?: string;
-  }[];
+  imgs:
+    | {
+        url: StaticImageData | string;
+        bannerText?: string;
+        bannerTxButton?: string;
+        link?: string;
+        slug?: string;
+        id?: string;
+      }[]
+    | undefined;
   size?: boolean;
   play?: boolean;
 }
@@ -82,7 +84,7 @@ const SlideApp = ({ nav, dot, qnt, imgs, size, play }: PropsSlide) => {
               className={
                 size
                   ? 'relative h-[250] xl:h-[500px]'
-                  : 'relative w-full h-full'
+                  : 'relative w-full h-full max-h-[768px]'
               }
               style={
                 size

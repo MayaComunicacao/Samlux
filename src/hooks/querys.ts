@@ -536,6 +536,47 @@ export const AboutPageOBJ = {
       ${this.postType}(id: "a-samlux", idType: URI) {
         title
         content
+        pagSobre {
+          sobreGaleria {
+            mediaDetails {
+              width
+              height
+            }
+            sourceUrl
+          }
+        }
+      }
+    }
+  `;
+  },
+  queryExecute: async function () {
+    const resultPage = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      resultPage: resultPage?.page || {}
+    };
+  }
+};
+
+export const CustomProjectsPageOBJ = {
+  postType: 'page',
+  query: function () {
+    return gql`
+    query GetNavigation {
+      ${this.postType}(id: "projeto-personalizado", idType: URI) {
+        title
+        content
+        galeriaProjetoPersonalizado {
+          galeriaProjetosPersonalizados {
+            mediaDetails {
+              width
+              height
+            }
+            sourceUrl
+          }
+        }
       }
     }
   `;
@@ -573,6 +614,36 @@ export const WhatsAppOBJ = {
 
     return {
       numwhatsapp: numwhatsapp?.[this.postType]?.[this.acf] || {}
+    };
+  }
+};
+
+export const OndeEstamosOBJ = {
+  postType: 'page',
+  acf: 'ondeEstamos',
+  query: function () {
+    return gql`
+      query GetEndOfStores {
+        ${this.postType}(id: "onde-estamos", idType: URI) {
+          slug
+          ${this.acf} {
+            ondeEstamos {
+              cidade
+              endereco
+              telefone
+            }
+          }
+        }
+      }
+    `;
+  },
+  queryExecute: async function () {
+    const enderecos = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      enderecos
     };
   }
 };

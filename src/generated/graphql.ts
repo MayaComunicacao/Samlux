@@ -4343,6 +4343,8 @@ export type Page = ContentNode &
     featuredImageDatabaseId?: Maybe<Scalars['Int']>;
     /** Globally unique ID of the featured image assigned to the node */
     featuredImageId?: Maybe<Scalars['ID']>;
+    /** Added to the GraphQL Schema because the ACF Field Group &quot;Galeria pág. Projeto personalizado&quot; was set to Show in GraphQL. */
+    galeriaProjetoPersonalizado?: Maybe<Page_Galeriaprojetopersonalizado>;
     /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
     guid?: Maybe<Scalars['String']>;
     /** The globally unique identifier of the page object. */
@@ -4373,6 +4375,10 @@ export type Page = ContentNode &
     modified?: Maybe<Scalars['String']>;
     /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
     modifiedGmt?: Maybe<Scalars['String']>;
+    /** Added to the GraphQL Schema because the ACF Field Group &quot;Onde Estamos&quot; was set to Show in GraphQL. */
+    ondeEstamos?: Maybe<Page_Ondeestamos>;
+    /** Added to the GraphQL Schema because the ACF Field Group &quot;Galeria Página Sobre&quot; was set to Show in GraphQL. */
+    pagSobre?: Maybe<Page_Pagsobre>;
     /**
      * The id field matches the WP_Post-&gt;ID field.
      * @deprecated Deprecated in favor of the databaseId field
@@ -4681,6 +4687,40 @@ export enum PageToRevisionConnectionWhereArgsMetaTypeEnum {
   Time = 'TIME',
   Unsigned = 'UNSIGNED'
 }
+
+/** Field Group */
+export type Page_Galeriaprojetopersonalizado = AcfFieldGroup & {
+  __typename?: 'Page_Galeriaprojetopersonalizado';
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  galeriaProjetosPersonalizados?: Maybe<Array<Maybe<MediaItem>>>;
+};
+
+/** Field Group */
+export type Page_Ondeestamos = AcfFieldGroup & {
+  __typename?: 'Page_Ondeestamos';
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  ondeEstamos?: Maybe<Array<Maybe<Page_Ondeestamos_OndeEstamos>>>;
+};
+
+/** Field Group */
+export type Page_Ondeestamos_OndeEstamos = AcfFieldGroup & {
+  __typename?: 'Page_Ondeestamos_ondeEstamos';
+  cidade?: Maybe<Scalars['String']>;
+  endereco?: Maybe<Scalars['String']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  telefone?: Maybe<Scalars['String']>;
+};
+
+/** Field Group */
+export type Page_Pagsobre = AcfFieldGroup & {
+  __typename?: 'Page_Pagsobre';
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  sobreGaleria?: Maybe<Array<Maybe<MediaItem>>>;
+};
 
 /** An plugin object */
 export type Plugin = Node & {

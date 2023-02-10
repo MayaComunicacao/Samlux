@@ -26,6 +26,11 @@ const FooterApp = () => {
                   <a>Projeto personalizado</a>
                 </Link>
               </li>
+              <li>
+                <Link href="/nossas-lojas">
+                  <a>Nossas lojas</a>
+                </Link>
+              </li>
             </ul>
             <ul className="text-gray min-w-full sm:min-w-[300px]">
               <li>

@@ -6,6 +6,7 @@ import EnvironmentApp from '../components/interface/Environment';
 import Link from 'next/link';
 import ProductApp from '../components/interface/Product';
 import { ExecuteAllQuerys } from '../hooks/querys';
+import MapsHome from '../components/interface/MapsHome';
 
 type Props = {
   apiData: any;
@@ -14,7 +15,7 @@ type Props = {
 const Home = ({ apiData }: Props) => {
   return (
     <>
-      <div className="banner-home relative w-full aspect-video lg:aspect-auto lg:h-[1080px] overflow-hidden">
+      <div className="banner-home relative w-full aspect-video lg:aspect-auto h-[768px] overflow-hidden">
         <SlideApp
           dot={true}
           nav={false}
@@ -60,6 +61,14 @@ const Home = ({ apiData }: Props) => {
             <a className="py-2 px-8 bg-bg text-gray">Veja todos os produtos</a>
           </Link>
         </div>
+      </div>
+
+      <div className="container pb-14">
+        <div>
+          <TitleApp text={'Onde nós estamos'} />
+        </div>
+
+        <MapsHome />
       </div>
     </>
   );
