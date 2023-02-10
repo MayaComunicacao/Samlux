@@ -1,9 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as SibApivV3Sdk from '@sendinblue/client';
 
-const api_key =
-  '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';
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
