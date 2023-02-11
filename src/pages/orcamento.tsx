@@ -1,13 +1,14 @@
 import type { GetStaticProps } from 'next';
-import Link from 'next/link';
 import React from 'react';
 import { useBudget } from '../components/context/context';
+import { useModal } from '../components/context/contextModal';
 import ItemBudget from '../components/interface/ItemBudget';
 import TitleApp from '../components/interface/Title';
 import { CategoriesOBJ } from '../hooks/querys';
 
 const PageOrcamento = () => {
   const { budget } = useBudget();
+  const { setStatusModal } = useModal();
 
   return (
     <>
@@ -33,11 +34,12 @@ const PageOrcamento = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Link href="/">
-            <a className="py-3 px-4 bg-green text-white font-bold inline-block uppercase">
-              Finalizar orçamento
-            </a>
-          </Link>
+          <button
+            className="py-3 px-4 bg-green text-white font-bold inline-block uppercase"
+            onClick={() => setStatusModal(true)}
+          >
+            Finalizar orçamento
+          </button>
         </div>
       </div>
     </>

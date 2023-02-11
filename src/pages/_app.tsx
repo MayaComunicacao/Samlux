@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import ContextFilterProvider from '../components/context/contextFilter';
+import ContextModalProvider from '../components/context/contextModal';
 
 export interface IApiData {
   apiData: any;
@@ -17,23 +18,25 @@ function MyApp({ Component, pageProps }: AppProps<IApiData>) {
   return (
     <MenuProvider>
       <BudgetProvider>
-        <ContextFilterProvider>
-          <Layout api={pageProps.apiData}>
-            <ToastContainer
-              position="bottom-right"
-              autoClose={3000}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
+        <ContextModalProvider>
+          <ContextFilterProvider>
+            <Layout api={pageProps.apiData}>
+              <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
 
-            <Component {...pageProps} />
-          </Layout>
-        </ContextFilterProvider>
+              <Component {...pageProps} />
+            </Layout>
+          </ContextFilterProvider>
+        </ContextModalProvider>
       </BudgetProvider>
     </MenuProvider>
   );

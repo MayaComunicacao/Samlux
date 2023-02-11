@@ -17,6 +17,9 @@ const defaultValues = {
   },
   removeBudget: (codigo: string) => {
     codigo;
+  },
+  clear: () => {
+    return;
   }
 };
 
@@ -24,6 +27,7 @@ interface ContextProps {
   budget: Product[];
   addBudget: (produto: Product) => void;
   removeBudget: (codigo: string) => void;
+  clear: () => void;
 }
 
 interface ModalProviderProps {
@@ -53,6 +57,10 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
     });
   };
 
+  const clear = () => {
+    setBudget([]);
+  };
+
   const removeBudget = (codigo: string) => {
     setBudget((prev) => {
       const array = prev.filter((item) => item.codigo !== codigo);
@@ -61,7 +69,7 @@ export default function BudgetProvider({ children }: ModalProviderProps) {
   };
 
   return (
-    <ContextBudget.Provider value={{ budget, addBudget, removeBudget }}>
+    <ContextBudget.Provider value={{ budget, addBudget, removeBudget, clear }}>
       {children}
     </ContextBudget.Provider>
   );

@@ -1,10 +1,5 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import {
-  FormsContact,
-  FormsCustom,
-  FormsWork
-} from '../../components/interface/Form';
 import SlideApp from '../../components/interface/Slides';
 import MapApp from '../../components/interface/Map';
 import { useRouter } from 'next/router';
@@ -17,6 +12,9 @@ import {
 } from '../../hooks/querys';
 import workimg from '../../assets/img/trabalhe-conosco.jpg';
 import { Page_Galeriaprojetopersonalizado } from '../../generated/graphql';
+import FormContact from '../../components/interface/form/FormContact';
+import FormCustomProject from '../../components/interface/form/FormCustomProject';
+import FormWork from '../../components/interface/form/FormWork';
 
 const PageContactsApp = ({ apiData }: { apiData: any }) => {
   const contentCustomProjectPage = apiData?.contentCustomProjectPage;
@@ -58,7 +56,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
                 <p className="leading-6 py-3">
                   Entre em contato com nossa equipe e esclareça sua dúvidas.
                 </p>
-                <FormsContact />
+                <FormContact />
               </div>
               <div className="w-full lg:w-1/2">
                 <MapApp />
@@ -78,7 +76,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
                   <br />
                   Preencha agora mesmo o formulário.
                 </p>
-                <FormsWork />
+                <FormWork />
               </div>
               <div className="w-full lg:w-1/2">
                 <Image src={workimg} />
@@ -103,7 +101,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
                   }}
                 />
                 <b>Preencha o formulário e personalize seu projeto. </b>
-                <FormsCustom />
+                <FormCustomProject />
               </div>
               <div className="w-full lg:w-1/2 max-h-[768px] overflow-hidden">
                 <SlideApp

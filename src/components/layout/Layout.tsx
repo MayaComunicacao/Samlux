@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import FormFinalize from '../interface/modal/FormFinalize';
 import ModalBudget from '../interface/ModalBudget';
 import WhatsappButton from '../interface/WhatsappButton';
 import FooterApp from './Footer';
@@ -23,6 +24,8 @@ const MainApp = ({
       {Router.route != '/orcamento' && <ModalBudget />}
 
       <main>{children}</main>
+
+      <FormFinalize />
 
       <WhatsappButton numwhatsapp={api.numwhatsapp} />
 

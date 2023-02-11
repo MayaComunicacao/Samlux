@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-*, html, body{
+*,
+html,
+body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-body{
+body {
   position: relative;
 }
 
@@ -14,117 +16,126 @@ input {
   outline: none !important;
 }
 
-[type="radio"]:checked,
-[type="radio"]:not(:checked) {
-    position: absolute;
-    left: -9999px;
+[type='radio']:checked,
+[type='radio']:not(:checked) {
+  position: absolute;
+  left: -9999px;
 }
-[type="radio"]:checked + label,
-[type="radio"]:not(:checked) + label
-{
-    position: relative;
-    padding-left: 28px;
-    cursor: pointer;
-    line-height: 20px;
-    display: inline-block;
-    color: #666;
+[type='radio']:checked + label,
+[type='radio']:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: #666;
 }
-[type="radio"]:checked + label:before,
-[type="radio"]:not(:checked) + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 22px;
-    height: 22px;
-    border: 1px solid currentColor;
-    border-radius: 100%;
-    background: #fff;
+[type='radio']:checked + label:before,
+[type='radio']:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 100%;
+  background: #fff;
 }
-[type="radio"]:checked + label:after,
-[type="radio"]:not(:checked) + label:after {
-    content: '';
-    width: 14px;
-    height: 14px;
-    background: #0eb9b3;
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    border-radius: 100%;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+[type='radio']:checked + label:after,
+[type='radio']:not(:checked) + label:after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: #0eb9b3;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
-[type="radio"]:not(:checked) + label:after {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    transform: scale(0);
+[type='radio']:not(:checked) + label:after {
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
 }
-[type="radio"]:checked + label:after {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+[type='radio']:checked + label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 
-.submenu{
+.submenu {
   padding: 10px 20px;
 }
-.submenu a{
+.submenu a {
   padding: 5px 0;
   display: block;
 }
-.swiper .swiper-pagination .swiper-pagination-bullet{
+.swiper .swiper-pagination .swiper-pagination-bullet {
   width: 100%;
   max-width: 90px;
   border: 1px solid;
   border-color: white;
   background-color: transparent;
   border-radius: 0;
-  height: 5px
+  height: 5px;
 }
-.banner-home .swiper .swiper-pagination .swiper-pagination-bullet-active{
-  background-color: white
+.banner-home .swiper .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: white;
 }
-.swipper-dots .swiper .swiper-pagination{
- position: relative !important;
- margin-top: 20px;
+.swipper-dots .swiper .swiper-pagination {
+  position: relative !important;
+  margin-top: 20px;
 }
-.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet{
+.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet {
   border-color: #777;
 }
-.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet-active{
+.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet-active {
   background-color: #777;
   border-color: #777;
 }
-.banner-home .swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet{
+.banner-home
+  .swipper-dots
+  .swiper
+  .swiper-pagination
+  .swiper-pagination-bullet {
   border-color: #ccc;
 }
-.banner-home .swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet-active{
+.banner-home
+  .swipper-dots
+  .swiper
+  .swiper-pagination
+  .swiper-pagination-bullet-active {
   background-color: #ccc;
   border-color: #ccc;
 }
-.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet{
+.swipper-dots .swiper .swiper-pagination .swiper-pagination-bullet {
   width: 50px;
-  height: 5px
+  height: 5px;
 }
-.swiper-horizontal>.swiper-pagination-bullets,
+.swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
-.swiper-pagination-custom, .swiper-pagination-fraction {
-    bottom: 20px !important;
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: 20px !important;
 }
-.relateds .swiper-pagination{
+.relateds .swiper-pagination {
   position: relative !important;
 }
-.relateds .swiper .swiper-pagination .swiper-pagination-bullet-active{
+.relateds .swiper .swiper-pagination .swiper-pagination-bullet-active {
   border-color: #777;
 }
-.relateds .swiper .swiper-pagination .swiper-pagination-bullet-active{
+.relateds .swiper .swiper-pagination .swiper-pagination-bullet-active {
   background-color: #777;
   border-color: #777;
 }
-nav a:hover{
+nav a:hover {
   color: #0eb9b3;
 }
-.contacts input{
+.contacts input,
+.modalfinalize input {
   padding: 10px 15px;
   width: 100%;
   border: 1px solid;
@@ -133,7 +144,8 @@ nav a:hover{
   color: #757979;
   margin-bottom: 10px;
 }
-.contacts textarea{
+.contacts textarea,
+.modalfinalize textarea {
   padding: 10px 15px;
   width: 100%;
   min-height: 100px;
@@ -142,51 +154,57 @@ nav a:hover{
   border: 1px solid;
   border-color: #777;
 }
-.contacts input[type="submit"]{
+.contacts input[type='submit'],
+.modalfinalize [type='submit'] {
   background: #0eb9b3;
   color: white;
   font-size: 1.125rem;
   border: 0;
   cursor: pointer;
 }
-.swiper-slide span, .swiper-slide.swiper-slide-active span{
+.swiper-slide span,
+.swiper-slide.swiper-slide-active span {
   display: block !important;
 }
-.reset-image span{
+.reset-image span {
   display: block !important;
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 5px;
-  height: 4px
+  height: 4px;
 }
-::-webkit-scrollbar-track{
-  box-shadow:inset 0 0 3px #645dc5;
-  height: 4px
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px #645dc5;
+  height: 4px;
 }
-::-webkit-scrollbar-thumb{
-  background:#0eb9b3;
+::-webkit-scrollbar-thumb {
+  background: #0eb9b3;
   height: 1px;
 }
-::-webkit-scrollbar-thumb:hover{
-  background:#0eb9b3;
-  height: 4px
+::-webkit-scrollbar-thumb:hover {
+  background: #0eb9b3;
+  height: 4px;
 }
-.objheight{
+.objheight {
   height: 90px;
 }
 .banner-home .swiper-wrapper .swiper-slide .content-tx p,
-.banner-home .swiper-wrapper .swiper-slide .content-tx button{
+.banner-home .swiper-wrapper .swiper-slide .content-tx button {
   transform: translateX(100%);
-  transition: all .35s ease;
-  transition-delay: .25s;
+  transition: all 0.35s ease;
+  transition-delay: 0.25s;
   opacity: 0;
   visibility: hidden;
 }
-.banner-home .swiper-wrapper .swiper-slide .content-tx button{
-  transition-delay: .3s;
+.banner-home .swiper-wrapper .swiper-slide .content-tx button {
+  transition-delay: 0.3s;
 }
 .banner-home .swiper-wrapper .swiper-slide.swiper-slide-active .content-tx p,
-.banner-home .swiper-wrapper .swiper-slide.swiper-slide-active .content-tx button{
+.banner-home
+  .swiper-wrapper
+  .swiper-slide.swiper-slide-active
+  .content-tx
+  button {
   transform: translateX(0);
   opacity: 1;
   visibility: visible;
@@ -195,31 +213,30 @@ nav a:hover{
   background: #0eb9b3 !important;
 }
 
-@media screen and (max-width: 1550px){
-  .container{
+@media screen and (max-width: 1550px) {
+  .container {
     padding-left: 15px;
     padding-right: 15px;
   }
 }
 
-@media screen and (max-width: 1024px){
-
-  .swiper-horizontal>.swiper-pagination-bullets,
+@media screen and (max-width: 1024px) {
+  .swiper-horizontal > .swiper-pagination-bullets,
   .swiper-pagination-bullets.swiper-pagination-horizontal,
-  .swiper-pagination-custom, .swiper-pagination-fraction {
+  .swiper-pagination-custom,
+  .swiper-pagination-fraction {
     bottom: 10px !important;
   }
-  .swiper .swiper-pagination .swiper-pagination-bullet{
+  .swiper .swiper-pagination .swiper-pagination-bullet {
     max-width: 30px;
   }
-  .banner-home .swiper .swiper-pagination .swiper-pagination-bullet{
+  .banner-home .swiper .swiper-pagination .swiper-pagination-bullet {
     height: 4px;
   }
-  .swiper-pagination-bullet{
-    opacity: .4 !important;
+  .swiper-pagination-bullet {
+    opacity: 0.4 !important;
   }
 }
-
 
 .container-square {
   position: relative;
@@ -227,7 +244,7 @@ nav a:hover{
   width: 100%;
   height: 100%;
 }
-.square{
+.square {
   width: 100%;
   height: 100%;
 }
