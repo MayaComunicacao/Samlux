@@ -19,7 +19,7 @@ const WhatsappButton = ({ numwhatsapp }: IProps) => {
   const url = `https://api.whatsapp.com/send?phone=${numFormatted}&text=${msg}`;
 
   return (
-    <div className="fixed bottom-[30px] right-[30px] bg-white rounded-[100%] shadow-xl z-50">
+    <div className="fixed bottom-[30px] right-[30px] bg-white rounded-[100%] shadow-xl z-40">
       <a href={url}>
         <BsWhatsapp size={40} color="#25D366" />
       </a>
