@@ -35,7 +35,8 @@ const Produto = ({ apiData }: Props) => {
     : [...ambientadas];
 
   useEffect(() => {
-    if (corSelecionadaIndex) window.scrollTo({ left: 0, top: 0 });
+    if (corSelecionadaIndex !== null || corSelecionadaIndex !== undefined)
+      window.scrollTo({ left: 0, top: 0 });
   }, [corSelecionadaIndex]);
 
   return (
