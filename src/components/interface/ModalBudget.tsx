@@ -15,7 +15,7 @@ const ModalBudget = () => {
   return (
     <>
       <div
-        className={`fixed top-0 right-0 z-20 w-full max-w-sm bg-white h-screen shadow-xl translate-x-full transition-all z-50 ${
+        className={`fixed top-0 right-0 z-20 w-full max-w-sm bg-white h-screen shadow-xl translate-x-full transition-all z-[51] ${
           isActive ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

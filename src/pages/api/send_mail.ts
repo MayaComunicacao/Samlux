@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as SibApivV3Sdk from '@sendinblue/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
@@ -6,11 +7,12 @@ import {
   createEmailOrcamentoProject
 } from '../../contants/emails';
 
-const api_key = `${
-  process.env.VERCEL_ENV === 'production'
-    ? process.env.MAIL_API_KEY
-    : process.env.NEXT_PUBLIC_MAIL_API_KEY
-}`;
+const api_key = `${process.env.VERCEL_ENV === 'production'
+  ? process.env.MAIL_API_KEY
+  : process.env.NEXT_PUBLIC_MAIL_API_KEY
+  }`;
+
+const from_email = 'comercial@samlux.com.br';
 
 export default async function handler(
   req: NextApiRequest,
@@ -72,8 +74,8 @@ export default async function handler(
     await apiInstance
       .sendTransacEmail({
         subject: `${body.subject}`,
-        sender: { email: 'comercial@samlux.com.br', name: 'Samlux' },
-        to: [{ name: 'John Doe', email: 'comercial@samlux.com.br' }],
+        sender: { email: from_email, name: 'Samlux' },
+        to: [{ name: 'Samlux', email: from_email }],
         htmlContent: `${html}`
       })
       .then((data) => res.status(200).send('ok'))
@@ -85,8 +87,8 @@ export default async function handler(
     await apiInstance
       .sendTransacEmail({
         subject: `${body.subject}`,
-        sender: { email: 'comercial@samlux.com.br', name: 'Samlux' },
-        to: [{ name: 'John Doe', email: 'comercial@samlux.com.br' }],
+        sender: { email: from_email, name: 'Samlux' },
+        to: [{ name: 'Samlux', email: from_email }],
         htmlContent: `${html}`,
         attachment: [
           {

@@ -10,7 +10,7 @@ const Navigation = ({ apidata }: { apidata: any }) => {
     (item: { name: string; slug: string }) => {
       return {
         name: item.name,
-        path: `./produtos/${item.slug}`
+        path: `/produtos/${item.slug}`
       };
     }
   );

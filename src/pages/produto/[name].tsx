@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import BreadcrumbApp from '../../components/interface/Breadcrumb';
 import ProductSlideImage from '../../components/interface/ProductSlideImage';
@@ -34,12 +34,27 @@ const Produto = ({ apiData }: Props) => {
     ? [...ambientadas, ...fotosVariacoes]
     : [...ambientadas];
 
+  useEffect(() => {
+    if (corSelecionadaIndex) window.scrollTo({ left: 0, top: 0 });
+  }, [corSelecionadaIndex]);
+
   return (
     <div className="container">
       <BreadcrumbApp />
 
       <div className="sm:flex pt-8 sm:pt-14 pb-14">
-        <div className="w-full sm:w-1/2 pr-0 sm:pr-8">
+        <div className="w-full sm:w-1/2 pr-0 sm:pr-8 relative">
+          {corSelecionadaIndex !== null && (
+            <div className="block pt-6 pl-1 absolute top-[-24px] left-auto lg:-left-[3.5px] right-0 lg:right-auto z-50">
+              <button
+                className="block bg-green p-3 text-white"
+                onClick={() => setCorSelecionadaIndex(null)}
+              >
+                Ver todas as imagens
+              </button>
+            </div>
+          )}
+
           <ProductSlideImage
             gallery={
               corSelecionadaIndex !== null
@@ -179,14 +194,6 @@ const Produto = ({ apiData }: Props) => {
                 })}
               </div>
             )}
-          <div className="block pt-6 pl-1">
-            <button
-              className="block bg-green p-3 text-white"
-              onClick={() => setCorSelecionadaIndex(null)}
-            >
-              Ver ambientadas
-            </button>
-          </div>
           {data.produto.prodItensinclusosDescricao && (
             <p className="py-4">
               <span className="text-green text-lg font-bold">
