@@ -68,7 +68,12 @@ input {
 }
 
 .submenu {
-  padding: 10px 20px;
+  padding: 0;
+}
+@media (min-width: 1024px) {
+  .submenu {
+    padding: 10px 20px;
+  }
 }
 .submenu a {
   padding: 5px 0;

@@ -67,7 +67,7 @@ const Navigation = ({ apidata }: { apidata: any }) => {
               </Link>
               <div
                 className={
-                  'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-1/2 -translate-x-1/2 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
+                  'submenu text-xl lg:text-base lg:absolute lg:top-8 lg:left-1/2 lg:-translate-x-1/2 bg-white lg:text-center lg:border border-slate-300 lg:invisible lg:opacity-0 lg:translate-y-6 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-y-0'
                 }
               >
                 {submenu.map((item: any, index: number) => {

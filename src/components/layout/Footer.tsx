@@ -12,7 +12,7 @@ const FooterApp = () => {
           <div className="block sm:flex">
             <ul className="text-gray min-w-full sm:min-w-[300px]">
               <li>
-                <Link href="/a-empresa">
+                <Link href="/a-samlux">
                   <a>Samlux</a>
                 </Link>
               </li>
