@@ -42,9 +42,13 @@ const HeaderApp = ({ apidata }: { apidata: IApiData }) => {
       </div>
       <div className="py-5 px-4 block lg:hidden">
         <div className="flex w-full items-center justify-between">
-          <div className="w-[140px]">
-            <Image layout="intrinsic" src={Logo} alt="Logotipo Sanlux" />
-          </div>
+          <Link href="/" passHref>
+            <a className="relative">
+              <div className="w-[140px]">
+                <Image layout="intrinsic" src={Logo} alt="Logotipo Sanlux" />
+              </div>
+            </a>
+          </Link>
           <button onClick={() => onClick(true)}>
             <BiMenu size="24px" color={configcss.colors.gray} />
           </button>
