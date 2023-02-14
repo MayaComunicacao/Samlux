@@ -15,7 +15,7 @@ type Props = {
 const Home = ({ apiData }: Props) => {
   return (
     <>
-      <div className="banner-home relative w-full aspect-video lg:aspect-auto h-[768px] overflow-hidden">
+      <div className="banner-home relative w-full aspect-video lg:aspect-auto lg:h-[768px] overflow-hidden">
         <SlideApp
           dot={true}
           nav={false}
@@ -64,11 +64,7 @@ const Home = ({ apiData }: Props) => {
       </div>
 
       <div className="container pb-14">
-        <div>
-          <TitleApp text={'Onde nós estamos'} />
-        </div>
-
-        <MapsHome />
+        <MapsHome mapa={apiData?.imgsMapa} />
       </div>
     </>
   );

@@ -648,18 +648,58 @@ export const OndeEstamosOBJ = {
   }
 };
 
+export const ImagemMapaOBJ = {
+  postType: 'page',
+  acf: 'acfImagemBanner',
+  query: function () {
+    return gql`
+      query GetImgMapa {
+        ${this.postType}(id: "home", idType: URI) {
+          ${this.acf} {
+            imagemParaDesktop {
+              sourceUrl
+              mediaDetails {
+                width
+                height
+              }
+            }
+            imagemParaMobile {
+              sourceUrl
+              mediaDetails {
+                width
+                height
+              }
+            }
+          }
+        }
+      }
+    `;
+  },
+  queryExecute: async function () {
+    const imgsMapa = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      imgsMapa: imgsMapa?.page?.[this.acf] || {}
+    };
+  }
+};
+
 export const ExecuteAllQuerys = async () => {
   const [
     { marcasExclusivas },
     { banners },
     { navigation },
     { products },
+    { imgsMapa },
     { numwhatsapp }
   ] = await Promise.all([
     await BrandsOBJ.queryExecute(),
     await BannersOBJ.queryExecute(),
     await CategoriesOBJ.queryExecute(),
     await ProductsOBJ.queryExecute(),
+    await ImagemMapaOBJ.queryExecute(),
     await WhatsAppOBJ.queryExecute()
   ]);
 
@@ -668,6 +708,7 @@ export const ExecuteAllQuerys = async () => {
     banners,
     navigation,
     products,
+    imgsMapa,
     numwhatsapp
   };
 };
