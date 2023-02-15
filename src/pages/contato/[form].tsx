@@ -67,7 +67,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
           {Router.query.form === 'trabalhe-conosco' && (
             <>
               <div
-                className="w-full lg:w-1/2 py-14 lg:pr-12 text-gray"
+                className="w-full lg:w-1/2 py-8 lg:pr-12 text-gray"
                 style={{ paddingLeft: paddingLeft }}
               >
                 <h1 className="text-3xl text-green">Trabalhe conosco</h1>

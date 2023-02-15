@@ -56,15 +56,17 @@ const Produto = ({ apiData }: Props) => {
             </div>
           )}
 
-          <ProductSlideImage
-            gallery={
-              corSelecionadaIndex !== null
-                ? data.produto?.variacoesDoProduto[variacaoIndex]?.fotoscores[
-                    corSelecionadaIndex
-                  ].imagensCor
-                : imagens
-            }
-          />
+          <div className="block h-full min-h-[458px]">
+            <ProductSlideImage
+              gallery={
+                corSelecionadaIndex !== null
+                  ? data.produto?.variacoesDoProduto[variacaoIndex]?.fotoscores[
+                      corSelecionadaIndex
+                    ].imagensCor
+                  : imagens
+              }
+            />
+          </div>
         </div>
         <div className="w-full mt-8 sm:mt-0 sm:w-1/2 pl-0 lg:pl-8 text-gray">
           <h1 className="text-4xl font-semibold text-green pb-4">
