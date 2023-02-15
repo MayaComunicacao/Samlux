@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import * as SibApivV3Sdk from '@sendinblue/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {
-  createEmailContactProject,
-  createEmailCustomProject,
-  createEmailOrcamentoProject
-} from '../../contants/emails';
+import { generateBudgetEmail } from '../../utils/emails/email-budget';
+import { generateContactEmail } from '../../utils/emails/email-contact';
+import { generateContactWorkUsEmail } from '../../utils/emails/email-contact-work';
+import { generateCustomProjectEmail } from '../../utils/emails/email-custom-project';
+import { formatDateToHumanDates } from '../../utils/intl';
 
 const api_key = `${process.env.VERCEL_ENV === 'production'
   ? process.env.MAIL_API_KEY
@@ -22,45 +22,56 @@ export default async function handler(
 
   let html = '';
 
+  const now = new Date();
+
   if (body.type === 'projeto_personalizado') {
-    html = createEmailCustomProject({
-      nome: body.name,
-      email: body.email,
-      telefone: body.fone,
-      cidade: body.city,
-      msg: body.msg,
-      subject: body.subject
-    });
+    const ctx = {
+      name: `${body.name}`,
+      email: `${body.email}`,
+      phone: `${body.fone}`,
+      city: `${body.city}`,
+      message: `${body.msg}`,
+      date: formatDateToHumanDates(now).toString()
+    };
+
+    html = await generateCustomProjectEmail(ctx);
   }
 
   if (body.type === 'contato') {
-    html = createEmailContactProject({
-      nome: body.name,
-      email: body.email,
-      telefone: body.fone,
-      cidade: body.city,
-      subject: body.subject
-    });
+    const ctx = {
+      name: `${body.name}`,
+      email: `${body.email}`,
+      phone: `${body.fone}`,
+      city: `${body.city}`,
+      date: formatDateToHumanDates(now).toString()
+    };
+
+    html = await generateContactEmail(ctx);
   }
 
   if (body.type === 'trabalhe_conosco') {
-    html = createEmailContactProject({
-      nome: body.name,
-      email: body.email,
-      telefone: body.fone,
-      cidade: body.city,
-      subject: body.subject
-    });
+    const ctx = {
+      name: `${body.name}`,
+      email: `${body.email}`,
+      phone: `${body.fone}`,
+      city: `${body.city}`,
+      date: formatDateToHumanDates(now).toString()
+    };
+
+    html = await generateContactWorkUsEmail(ctx);
   }
 
   if (body.type === 'orcamento') {
-    html = createEmailOrcamentoProject({
-      nome: body.name,
-      email: body.email,
-      telefone: body.fone,
+    const ctx = {
+      name: `${body.name}`,
+      email: `${body.email}`,
+      phone: `${body.fone}`,
+      city: `${body.city}`,
       items: body.products,
-      subject: body.subject
-    });
+      date: formatDateToHumanDates(now).toString()
+    };
+
+    html = await generateBudgetEmail(ctx);
   }
 
   const apiInstance = new SibApivV3Sdk.TransactionalEmailsApi();

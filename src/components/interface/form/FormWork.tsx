@@ -46,8 +46,6 @@ const FormWork = () => {
 
     const base64 = await blobToBase64(file as Blob);
 
-    console.log(base64);
-
     const result = await axios.post('/api/send_mail', {
       name: data.name,
       email: data.email,

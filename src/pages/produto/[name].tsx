@@ -221,6 +221,7 @@ const Produto = ({ apiData }: Props) => {
             </>
           )}
           <ButtonsApp
+            numwhatsapp={apiData.numwhatsapp}
             page={'product'}
             title={data.title}
             slug={data.slug}

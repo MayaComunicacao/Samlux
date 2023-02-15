@@ -55,6 +55,10 @@ const FormFinalize = () => {
   const onError = (data: any) => console.log(data);
 
   useEffect(() => {
+    if (!state) setSuccess(false);
+  }, [state]);
+
+  useEffect(() => {
     if (Object.keys(errors).length > 0) setSuccess(false);
   }, [errors]);
 

@@ -1,0 +1,45 @@
+<mjml>
+  <mj-head>
+    <mj-title>
+      Novo contato via site:
+    </mj-title>
+  </mj-head>
+
+  <mj-body background-color="#fff">
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text font-size="24px" font-weight="bold">
+          Novo contato via site:
+        </mj-text>
+      </mj-column>
+
+      <mj-column width="100%">
+        <mj-text font-size="16px" font-weight="bold">
+          Trabalhe conosco:
+        </mj-text>
+
+        <mj-text font-size="16px">
+          Nome: {{ name }}
+        </mj-text>
+
+        <mj-text font-size="16px">
+          E-mail: {{ email }}
+        </mj-text>
+
+        <mj-text font-size="16px">
+          Telefone: {{ phone }}
+        </mj-text>
+
+        <mj-text font-size="16px">
+          Cidade: {{ city }}
+        </mj-text>
+
+        <mj-divider border-width="1px" />
+
+        <mj-text font-size="13px">
+          {{ date }}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+</mjml>
+</mj-body>

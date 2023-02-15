@@ -1,0 +1,57 @@
+<mjml>
+  <mj-head>
+    <mj-title>
+      Novo contato via site:
+    </mj-title>
+  </mj-head>
+
+  <mj-body background-color="#fff">
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text font-size="24px">
+          Novo orçamento via site:
+        </mj-text>
+
+        <mj-divider border-width="1px" />
+      </mj-column>
+
+      <mj-column width="100%">
+        <mj-text>
+          Nome: {{ name }}
+        </mj-text>
+
+        <mj-text>
+          E-mail: {{ email }}
+        </mj-text>
+
+        <mj-text>
+          Telefone: {{ phone }}
+        </mj-text>
+
+        <mj-divider border-width="1px" />
+
+        <mj-text font-size="20px">
+          Produtos:
+        </mj-text>
+
+        <mj-table>
+          <tr style="border-bottom:1px solid #dddddd;text-align:left;padding:15px 0;">
+            <th style="padding: 0 15px 0 0;">Item</th>
+            <th style="padding: 0 15px;">Cod.</th>
+            <th style="padding: 0 0 0 15px;">Qnt.</th>
+            <th style="padding: 0 0 0 15px;">Volts</th>
+          </tr>
+
+          {{#each items}}
+            <tr>
+              <td style="padding: 0 15px 0 0;">{{ this.title }}</td>
+              <td style="padding: 0 15px;">{{ this.codigo }}</td>
+              <td style="padding: 0 0 0 15px; text-align: center;">{{ this.quantidade }}</td>
+              <td style="padding: 0 0 0 15px;">{{ this.volts }}</td>
+            </tr>
+          {{/each}}
+        </mj-table>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

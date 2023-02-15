@@ -12,6 +12,10 @@ interface PageProps {
   slug: string;
   uri: string;
   volts: string;
+  numwhatsapp: {
+    numeroWhatsapp: string;
+    mensagemWhatsapp: string;
+  };
 }
 
 const ButtonsApp = ({
@@ -21,7 +25,8 @@ const ButtonsApp = ({
   codigo,
   img = null,
   uri,
-  volts
+  volts,
+  numwhatsapp
 }: PageProps) => {
   const { addBudget } = useBudget();
   const [counter, setCounter] = useState(1);
@@ -64,6 +69,14 @@ const ButtonsApp = ({
   };
 
   useEffect(() => setCounter(1), [router]);
+
+  const numFormatted = numwhatsapp?.numeroWhatsapp?.replace(
+    /\D/g,
+    ''.replace(/\s\n/g, '')
+  );
+
+  const msg = numwhatsapp?.mensagemWhatsapp;
+  const url = `https://api.whatsapp.com/send?phone=${numFormatted}&text=${msg}`;
 
   if (page === 'category') {
     return (
@@ -136,9 +149,12 @@ const ButtonsApp = ({
             Orçar
           </button>
         </div>
-        <button className="py-3 px-4 mt-2 lg:mt-0 sm:ml-1 text-lg uppercase bg-graylight text-gray hover:bg-green hover:text-white block lg:inline-block w-full lg:w-1/2">
-          Falar com um consultor
-        </button>
+
+        <Link href={url ? url : ''} passHref target="_blank">
+          <a className="py-3 px-4 mt-2 lg:mt-0 sm:ml-1 text-lg uppercase bg-graylight text-gray hover:bg-green text-center hover:text-white block lg:inline-block w-full lg:w-1/2">
+            Falar com um consultor
+          </a>
+        </Link>
       </div>
     );
   }
