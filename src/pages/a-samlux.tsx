@@ -16,23 +16,27 @@ const AboutApp = ({ apiData }: { apiData: any }) => {
     })
     .filter(Boolean);
 
-  const [paddingLeft, setPaddingLeft] = useState(0);
+  const [paddingLeft, setPaddingLeft] = useState<string | number>('14px');
 
   useEffect(() => {
     const width = document.querySelector('.container')?.getBoundingClientRect();
 
-    if (width) {
-      setPaddingLeft(width.left);
+    if (width?.left) {
+      if (window.innerWidth > 1240) {
+        setPaddingLeft(`${width.left}px`);
+      }
     }
   }, []);
 
   return (
     <>
-      <div className="bg-bg relative min-h-[480px] border-b border-slate-300">
+      <div className="bg-bg relative border-b border-slate-300">
         <div className="lg:flex lg:items-center">
           <div
-            className="w-full lg:w-1/2 py-20 lg:pr-14 text-gray"
-            style={{ paddingLeft: paddingLeft }}
+            className="block w-full lg:w-1/2  lg:pr-14 text-gray"
+            style={{
+              paddingLeft: paddingLeft
+            }}
           >
             <div className="pb-4">
               <TitleApp
@@ -45,6 +49,7 @@ const AboutApp = ({ apiData }: { apiData: any }) => {
               dangerouslySetInnerHTML={{ __html: apiData?.resultPage?.content }}
             />
           </div>
+
           <div className="w-full lg:w-1/2">
             <SlideApp
               dot={true}

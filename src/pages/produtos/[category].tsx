@@ -97,8 +97,12 @@ const Products = () => {
       if (json) {
         setProducts(
           json?.data?.contentNodes?.nodes
-            ? json.data.contentNodes.nodes
-            : json.data.produtos.nodes
+            ? json.data.contentNodes.nodes.filter((item: any) =>
+                Object.keys(item).length > 0 ? true : false
+              )
+            : json.data.produtos.nodes.filter((item: any) =>
+                Object.keys(item).length > 0 ? true : false
+              )
         );
       }
 

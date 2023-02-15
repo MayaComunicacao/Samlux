@@ -87,7 +87,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
           {Router.query.form === 'projeto-personalizado' && (
             <>
               <div
-                className="w-full lg:w-1/2 py-14 lg:pr-12 text-gray"
+                className="w-full lg:w-1/2 py-4 lg:py-10 lg:pr-12 text-gray"
                 style={{ paddingLeft: paddingLeft }}
               >
                 <h1 className="text-3xl text-green">
@@ -103,7 +103,7 @@ const PageContactsApp = ({ apiData }: { apiData: any }) => {
                 <b>Preencha o formulário e personalize seu projeto. </b>
                 <FormCustomProject />
               </div>
-              <div className="w-full lg:w-1/2 max-h-[768px] overflow-hidden">
+              <div className="w-full lg:w-1/2">
                 <SlideApp
                   dot={true}
                   nav={false}

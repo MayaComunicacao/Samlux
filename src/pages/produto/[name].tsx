@@ -87,13 +87,13 @@ const Produto = ({ apiData }: Props) => {
                 Variações:
               </span>
 
-              <div className="grid grid-cols-2 lg:flex flex-wrap gap-4">
+              <div className="grid grid-cols-2 lg:flex flex-wrap gap-1">
                 {data.produto.variacoesDoProduto?.map(
                   (item: any, index: number) => {
                     return (
                       <div
                         key={index}
-                        className="flex items-center w-[fit-content] p-2 relative gap-2 border border-zinc-300 cursor-pointer"
+                        className="flex items-center w-[fit-content] p-2 relative gap-2 border border-zinc-300 cursor-pointer lg:min-w-[180px] min-h-[70px]"
                         onClick={() => setVariacaoIndex(index)}
                       >
                         <div className="flex items-center relative">

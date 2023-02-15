@@ -16,8 +16,8 @@ const MyImageGallery = ({ gallery }: Props) => {
       );
 
       return {
-        original: item.mediaItemUrl || item.sourceUrl,
-        thumbnail: el ? el.sourceUrl : item.mediaItemUrl
+        original: item?.mediaItemUrl || item?.sourceUrl || '',
+        thumbnail: el ? el?.sourceUrl : item?.mediaItemUrl || ''
       };
     }) || null;
 

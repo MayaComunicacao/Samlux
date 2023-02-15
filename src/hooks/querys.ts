@@ -728,7 +728,7 @@ export const getProductsByCategory = (category: string) => {
             slug
           }
           contentNodes(
-            where: {taxQuery: {taxArray: {field: SLUG, operator: IN, taxonomy: CATEGORY, terms: $terms}}}
+            where: {taxQuery: {taxArray: {field: SLUG, operator: IN, taxonomy: CATEGORY, terms: $terms}}}, first: 100
           ) {
             nodes {
               ... on Produto {
@@ -765,7 +765,7 @@ export const getAllProducts = () => {
     body: JSON.stringify({
       query: `
         query getAllProducts {
-          contentNodes(first: 30) {
+          contentNodes(first: 100) {
             nodes {
               ... on Produto {
                 title
@@ -797,7 +797,7 @@ export const getProductsByFilter = (whereQuery: any) => {
     body: JSON.stringify({
       query: `
         query GetProductsByFilter($where: RootQueryToProdutoConnectionWhereArgs = {}) {
-          produtos(where: $where, first: 25) {
+          produtos(where: $where, first: 100) {
             nodes {
               title
               slug
