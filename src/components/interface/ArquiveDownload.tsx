@@ -20,25 +20,6 @@ const ArquiveDownload = ({ item, type }: IProps) => {
     '3d': 'downFoto3d'
   };
 
-  const downloadFile = (url: string, name: string) => {
-    if (!url || !name) return;
-
-    fetch(url)
-      .then((resp) => resp.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        // the filename you want
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(() => alert('An error sorry'));
-  };
-
   return (
     <>
       <div className="block text-center">
@@ -58,16 +39,8 @@ const ArquiveDownload = ({ item, type }: IProps) => {
         <a
           ref={refLink}
           href={item?.downloads?.[indices[type]]?.mediaItemUrl || ''}
-          onClick={(e) => {
-            e.preventDefault();
-
-            const url = item?.downloads?.[indices[type]]?.mediaItemUrl || '';
-            const name = item?.downloads?.[indices[type]]?.title || '';
-
-            downloadFile(url, name);
-          }}
           target="_blank"
-          download={item?.downloads?.[indices[type]]?.title}
+          download={item?.downloads?.[indices[type]]?.title || ''}
           className="py-2 px-4 bg-green text-white text-center block mt-3"
           rel="noreferrer"
         >
