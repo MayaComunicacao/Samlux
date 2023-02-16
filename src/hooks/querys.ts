@@ -686,6 +686,50 @@ export const ImagemMapaOBJ = {
   }
 };
 
+export const DownloadsQueryOBJ = {
+  postType: 'downloads',
+  acf: 'downloads',
+  query: function () {
+    return gql`
+      query GetDownloadsQuery {
+        ${this.postType} {
+          nodes {
+            title
+            ${this.acf} {
+              downTipo
+              downDescricao
+              downFoto3d {
+                title
+                sourceUrl
+                mediaItemUrl
+              }
+              downImagem {
+                sourceUrl
+                title
+                mediaItemUrl
+              }
+              downPdf {
+                title
+                sourceUrl
+                mediaItemUrl
+              }
+            }
+          }
+        }
+      }
+    `;
+  },
+  queryExecute: async function () {
+    const Downloads = await (
+      await ApolloClient.query({ query: this.query() })
+    ).data;
+
+    return {
+      downloads: Downloads?.[this.acf] || []
+    };
+  }
+};
+
 export const ExecuteAllQuerys = async () => {
   const [
     { marcasExclusivas },

@@ -1,15 +1,9 @@
 import { GetStaticProps } from 'next';
 import React, { useState } from 'react';
 import ArquiveDownload from '../components/interface/ArquiveDownload';
-import Arquives from '../assets/images/arquives.json';
 import ConfigCss from '../styles/configcss';
-import { CategoriesOBJ, WhatsAppOBJ } from '../hooks/querys';
-
-interface DownloadProps {
-  name: string;
-  link: string;
-  description: string;
-}
+import { CategoriesOBJ, DownloadsQueryOBJ, WhatsAppOBJ } from '../hooks/querys';
+import { RootQueryToDownloadConnection } from '../generated/graphql';
 
 const StyleButtons = {
   background: ConfigCss.colors.green,
@@ -17,12 +11,15 @@ const StyleButtons = {
   borderColor: ConfigCss.colors.green
 };
 
-type TypeArquiveProp = 'catalogos' | '3ds' | 'fotos';
+type TypeArquiveProp = 'pdf' | '3d' | 'foto';
 
-const Download = () => {
-  const [TypeArquive, setTypeArquive] = useState<TypeArquiveProp>('catalogos');
+const Download = ({ apiData }: { apiData: any }) => {
+  const files: RootQueryToDownloadConnection = apiData?.downloads;
+
+  const [typeFile, setTypeFile] = useState<TypeArquiveProp>('pdf');
+
   const SetType = (type: TypeArquiveProp) => {
-    setTypeArquive(type);
+    setTypeFile(type);
   };
 
   return (
@@ -31,33 +28,46 @@ const Download = () => {
         <h1 className="text-3xl text-gray">Downloads</h1>
         <div className="mt-4 sm:mt-0">
           <button
-            onClick={() => SetType('catalogos')}
+            onClick={() => SetType('pdf')}
             className="py-3 px-4 border border-gray rounded-l-2xl text-gray hover:bg-green hover:text-white hover:border-green"
-            style={TypeArquive === 'catalogos' ? StyleButtons : undefined}
+            style={typeFile === 'pdf' ? StyleButtons : undefined}
           >
             Catálogos
           </button>
           <button
-            onClick={() => SetType('3ds')}
+            onClick={() => SetType('3d')}
             className="py-3 px-4 border-t border-b border-gray text-gray hover:bg-green hover:text-white hover:border-green"
-            style={TypeArquive === '3ds' ? StyleButtons : undefined}
+            style={typeFile === '3d' ? StyleButtons : undefined}
           >
             3Ds
           </button>
           <button
-            onClick={() => SetType('fotos')}
+            onClick={() => SetType('foto')}
             className="py-3 px-4 border border-gray text-gray rounded-r-2xl hover:bg-green hover:text-white hover:border-green"
-            style={TypeArquive === 'fotos' ? StyleButtons : undefined}
+            style={typeFile === 'foto' ? StyleButtons : undefined}
           >
             Fotos
           </button>
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-6 my-8">
-        {Arquives[0][TypeArquive].map((item: DownloadProps, index: number) => {
-          return (
-            <ArquiveDownload key={index} type={TypeArquive} array={item} />
-          );
+        {files?.nodes?.map((item, index) => {
+          if (item?.downloads?.downTipo === typeFile) {
+            return (
+              <ArquiveDownload
+                key={index}
+                type={
+                  item?.downloads?.downTipo as
+                    | 'downPdf'
+                    | 'downImagem'
+                    | 'downFoto3d'
+                }
+                item={item}
+              />
+            );
+          }
+
+          return null;
         })}
       </div>
     </div>
@@ -67,16 +77,18 @@ const Download = () => {
 export default Download;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const [{ navigation }, { numwhatsapp }] = await Promise.all([
+  const [{ navigation }, { numwhatsapp }, { downloads }] = await Promise.all([
     await CategoriesOBJ.queryExecute(),
-    await WhatsAppOBJ.queryExecute()
+    await WhatsAppOBJ.queryExecute(),
+    await DownloadsQueryOBJ.queryExecute()
   ]);
 
   return {
     props: {
       apiData: {
         navigation,
-        numwhatsapp
+        numwhatsapp,
+        downloads
       }
     },
     revalidate: 30

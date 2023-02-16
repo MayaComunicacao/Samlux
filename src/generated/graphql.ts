@@ -2772,6 +2772,8 @@ export type Download = ContentNode &
      * @deprecated Deprecated in favor of the databaseId field
      */
     downloadId: Scalars['Int'];
+    /** Added to the GraphQL Schema because the ACF Field Group &quot;Downloads&quot; was set to Show in GraphQL. */
+    downloads?: Maybe<Download_Downloads>;
     /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
     editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
     /** The RSS enclosure for the object */
@@ -2856,6 +2858,18 @@ export type DownloadToPreviewConnectionEdge = {
   __typename?: 'DownloadToPreviewConnectionEdge';
   /** The node of the connection, without the edges */
   node?: Maybe<Download>;
+};
+
+/** Field Group */
+export type Download_Downloads = AcfFieldGroup & {
+  __typename?: 'Download_Downloads';
+  downDescricao?: Maybe<Scalars['String']>;
+  downFoto3d?: Maybe<MediaItem>;
+  downImagem?: Maybe<MediaItem>;
+  downPdf?: Maybe<MediaItem>;
+  downTipo?: Maybe<Scalars['String']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
 };
 
 /** Asset enqueued by the CMS */
@@ -4818,8 +4832,6 @@ export type Post = ContentNode &
     dateGmt?: Maybe<Scalars['String']>;
     /** The desired slug of the post */
     desiredSlug?: Maybe<Scalars['String']>;
-    /** Added to the GraphQL Schema because the ACF Field Group &quot;Downloads&quot; was set to Show in GraphQL. */
-    downloads?: Maybe<Post_Downloads>;
     /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
     editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
     /** The RSS enclosure for the object */
@@ -6027,18 +6039,6 @@ export type PostTypeLabelDetails = {
   viewItem?: Maybe<Scalars['String']>;
   /** Label for viewing post type archives. */
   viewItems?: Maybe<Scalars['String']>;
-};
-
-/** Field Group */
-export type Post_Downloads = AcfFieldGroup & {
-  __typename?: 'Post_Downloads';
-  downDescricao?: Maybe<Scalars['String']>;
-  downFoto3d?: Maybe<MediaItem>;
-  downImagem?: Maybe<MediaItem>;
-  downPdf?: Maybe<MediaItem>;
-  downTipo?: Maybe<Scalars['String']>;
-  /** The name of the ACF Field Group */
-  fieldGroupName?: Maybe<Scalars['String']>;
 };
 
 /** The Produto type */
