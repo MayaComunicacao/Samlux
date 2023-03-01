@@ -74,7 +74,7 @@ export const GetProductsByBrandOBJ = {
   query: function () {
     return gql`
     query GetProducts ($value: String = "") {
-      ${this.postType} (where: {metaQuery: {relation: OR, metaArray: {key: "fabricante_prod", value: $value}}}, first: 25) {
+      ${this.postType} (where: {metaQuery: {relation: OR, metaArray: {key: "fabricante_prod", value: $value}}}, first: 200) {
         nodes {
           title,
           produto {
